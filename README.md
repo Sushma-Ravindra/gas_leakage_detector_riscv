@@ -106,6 +106,11 @@ __ C program __
 
 ```
 
+This code is tested and verified.
+
+<img width="1440" alt="Screenshot 2023-10-02 at 11 20 47 PM" src="https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/8f3a057e-adfb-41c1-93ed-97758767eed4">
+
+
 
 __Code conversion to assembly__
 
@@ -124,6 +129,7 @@ riscv32-unknown-elf-gcc -c -mabi=ilp32 -march=rv32im -ffreestanding -o ./sample 
 
 
 Thus this is the obtained assembly code for our program.
+
 
 
 
