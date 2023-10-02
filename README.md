@@ -56,7 +56,8 @@ If the gas is detected the indicator LED D0 will turn on and the digital pin wil
 This is the arduino implementation of the same :
 ![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/4677b269-8b42-47bb-ab7f-14cb14784cae)
 
-But for this project, the implementation woule be using a riscv core.
+But for this project, the implementation would be using a riscv core and as of now we would not be using an LCD module.
+
 
 
 
