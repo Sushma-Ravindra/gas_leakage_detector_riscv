@@ -15,6 +15,10 @@ __Materials Required__
 
 The MQ135 Gas sensor detects the presence of a dangerous LPG leak in your car or in a service station, storage tank environment. The sensor has excellent sensitivity combined with the quick response time. The MQ-3 gas sensor has a lower conductivity to clean the air as a gas sensing material. In the atmosphere we can find polluting gases, but the conductivity of gas sensor increases as the concentration of polluting gas increases. MQ-135 gas sensor can be implemented to detect the smoke, benzene, steam and other harmful gases. It has the potential to detect different harmful gases. It is with low cost and particularly suitable for Air quality monitoring applications.The sensor can also sense iso-butane, propane, LNG, and cigarette smoke etc. Based on the enviroment where this application is needed any of the following sensors in the table below can be utilized.
 
+The digital output pin of the sensor can be used to detect harmful gases in the environment. The sensitivity of the digital pin can be controlled by using the 10k potentiometer. If the gas is detected the indicator LED D0 will turn on and the digital pin will go from logic high to logic low (0V). The LM393 Op-Amp Comparator IC is used to compare the actual gas value with the value set using the potentiometer. If the actual gas value increases than the set value then the digital output pin gets low.
+
+Because of the onboard LM393 comparator IC the MQ135 Gas sensor module can also be used without the need of an external microcontroller. Simply power up the module and set the sensitivity of the digital pin using the potentiometer, then when the module detects the gas the digital pin will go low. This digital pin can directly be used to drive a buzzer or LED with the help of simple transistors.
+
 ```
 
     Model	Object detected	
@@ -44,6 +48,9 @@ The MQ135 Gas sensor detects the presence of a dangerous LPG leak in your car or
 
 __Circuit diagrams__
 
+The digital pin D0 of the sensor will be used to read data by the processor.
+If the gas is detected the indicator LED D0 will turn on and the digital pin will go from logic high to logic low (0V). The LM393 Op-Amp Comparator IC is used to compare the actual gas value with the value set using the potentiometer. If the actual gas value increases than the set value then the digital output pin gets low. This digital pin can directly be used to drive a buzzer or LED.
+
 ![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/091f572c-4883-48f6-9215-32746496e0b9)
 
 This is the arduino implementation of the same :
@@ -65,7 +72,7 @@ __ C program __
       int gas_level = 0;
   
       // Replace these variables with sensor pins and setup environment
-      int gas_sensor = 0; // Replace with the GPIO pin connected to sensor module
+      int gas_sensor = 0; // Replace with the GPIO pin connected to sensor's digital out pin
       int buzzer = 1; // Replace with the GPIO pin connected to the buzzer
   
       
