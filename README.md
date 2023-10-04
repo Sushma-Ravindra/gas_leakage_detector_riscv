@@ -64,7 +64,7 @@ But for this project, the implementation would be using a riscv core and as of n
 
 
 
-__ C program __
+## C program
 
 ```
          // Function monitoring gas levels using sensor module
