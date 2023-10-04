@@ -120,13 +120,13 @@ The assembly level code for this function can be obtained by the following comma
 
 Excecute this command to compile using RISC-V GNU Toolchain
 ```
-riscv32-unknown-elf-gcc -c -mabi=ilp32 -march=rv32im -ffreestanding -o ./sample sample.c
+riscv64-unknown-elf-gcc -01 -mabi=ilp32 -march=rv32i -o ./sample sample.c
 
 ```
   Excecute this command to generate assembly instructions file for the function created in the sample.c 
 
 ```
-  riscv32-unknown-elf-objdump -d sample.c --disassemble=newlogic  > sample_assembly.txt
+  riscv64-unknown-elf-objdump -d sample.o
 ```
 
 
