@@ -604,8 +604,8 @@ Number of different instructions used. The script will process the assembly code
 
 Grateful to Mr Kunal Ghosh, Co-Founder, VLSI SYSTEM DESIGN for providing an excellent platform to learn and expand our skills on a custom RISCV architecture design and ensuring that the learning process remained smooth. 
 
-    - Kunal Ghosh, VSD Corp. Pvt. Ltd.
-    - Mayank Kabra, IIITB
+- Kunal Ghosh, VSD Corp. Pvt. Ltd.
+- Mayank Kabra, IIITB
 
 
 
@@ -613,4 +613,4 @@ Grateful to Mr Kunal Ghosh, Co-Founder, VLSI SYSTEM DESIGN for providing an exce
 
 https://github.com/SakethGajawada/RISCV_GNU
 
-circuitdigest.com
+https://circuitdigest.com
