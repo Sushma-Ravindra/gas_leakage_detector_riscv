@@ -1,0 +1,34 @@
+Number of different instructions: 31
+List of unique instructions:
+jr
+bltz
+ecall
+blt
+neg
+mv
+and
+jal
+addi
+ret
+bne
+sub
+li
+andi
+or
+slli
+beq
+add
+lbu
+lw
+bgeu
+bnez
+beqz
+auipc
+jalr
+sw
+srai
+bltu
+sll
+j
+sb
+
