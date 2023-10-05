@@ -156,7 +156,15 @@ This code is tested and verified.
 ## Code conversion to assembly
 
 
+Commands used to convert C to assembly:
 
+```
+
+/home/sushma/riscv32-toolchain/bin/riscv32-unknown-elf-gcc -c -mabi=ilp32 -march=rv32im -ffreestanding -o sample.o sample.c
+/home/sushma/riscv32-toolchain/bin/riscv32-unknown-elf-objdump -d sample.o
+
+
+```
 
 Thus this is the obtained assembly code for our program.
 
@@ -269,6 +277,8 @@ Number of different instructions used. The script will process the assembly code
   
 
 ```
+
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/0c6fb2c5-60c7-4b72-855e-f4e23cd5b565)
 
 
 
