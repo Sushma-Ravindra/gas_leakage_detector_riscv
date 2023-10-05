@@ -282,7 +282,6 @@ Grateful to Mr Kunal Ghosh, Co-Founder, VLSI SYSTEM DESIGN for providing an exce
 - Mayank Kabra, IIITB
 
 
-
 ## References
 
 https://github.com/SakethGajawada/RISCV_GNU
