@@ -155,18 +155,7 @@ This code is tested and verified.
 
 ## Code conversion to assembly
 
-The assembly level code for this function can be obtained by the following commands:
 
-Excecute this command to compile using RISC-V GNU Toolchain
-```
-riscv64-unknown-elf-gcc -01 -mabi=ilp32 -march=rv32i -o ./sample sample.c
-
-```
-  Excecute this command to generate assembly instructions file for the function created in the sample.c 
-
-```
-  riscv64-unknown-elf-objdump -d sample.o
-```
 
 
 Thus this is the obtained assembly code for our program.
