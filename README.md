@@ -253,7 +253,7 @@ Download: Place the sample_assembly.txt assembly code file in the same directory
 
 Run the Script: Open a terminal or command prompt and navigate to the directory containing the script and the assembly code file. Run the following command:
 ```
-  python instruction_counter.py
+  python3 instruction_counter.py
 ```
 
 Number of different instructions used. The script will process the assembly code file and display the number of different instructions used along with a list of those instructions.
