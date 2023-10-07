@@ -1,16 +1,15 @@
 Number of different instructions: 13
 List of unique instructions:
-lw
-j
-nop
-auipc
-sw
-jalr
+and
 li
 bne
 or
-ret
+sw
+j
+lw
+auipc
 add
-and
 sll
-
+ret
+nop
+jalr
