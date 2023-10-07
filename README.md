@@ -67,17 +67,42 @@ But for this project, the implementation would be using a riscv core and as of n
 ## C program
 
 ```
-        
-   // Function monitoring gas levels using sensor module
-   // Replace these variables with sensor pins and setup environment
+  void monitorgaslevel();
+void detect_gas_level();
 
+
+ int main() {
+      while (1) {
+
+          detect_gas_level();
+      }
+      return 0;
+  }
+
+
+
+// Function monitoring gas levels using sensor module
+   // Replace these variables with sensor pins and setup environment
 
   void monitorgaslevel() {
       int gas_level;// Replace with the GPIO pin connected to sensor's digital out pin
-      int buzzer; // Replace with the GPIO pin connected to the buzzer
+      int buzzer=0; // Replace with the GPIO pin connected to the buzzer
       int buzzer_reg = buzzer*2;
 
-           
+  
+    	    
+  asm volatile(
+	"or x30, x30, %0\n\t" 
+	:
+	:"r"(buzzer_reg)
+	:"x30"
+	);
+
+  asm volatile(
+        "andi %0, x30, 1\n\t"
+
+        :"=r"(gas_level));
+
    
   
       while (1) {
@@ -86,25 +111,20 @@ But for this project, the implementation would be using a riscv core and as of n
 
               //gas_level = digital_read(0);
 
-	asm(
-	"andi %0, x30, 1\n\t"
 	
-	:"=r"(gas_level));
-
-
-
+  
               // buzzer = digitalwrite(1);
               //printf("Buzzer is ON\n");
 	
 	buzzer = 1;
   	buzzer_reg = buzzer*2;
   	
-	asm(
-	"or x30, x30,%0 \n\t"
-        :
-	:"r"(buzzer_reg)
-        :"x30"
-        );
+	asm volatile(
+	  "or x30, x30,%0 \n\t"
+          :
+	  :"r"(buzzer_reg)
+          :"x30"
+          );
 	 
 
 
@@ -116,10 +136,7 @@ But for this project, the implementation would be using a riscv core and as of n
           
           //gas_level = digital_read(0);
 
-	asm(
-	"andi %0, x30, 1\n\t"
 	
-	:"=r"(gas_level));
           
           
               // Simulate deactivating the buzzer (replace with actual buzzer control)
@@ -129,7 +146,7 @@ But for this project, the implementation would be using a riscv core and as of n
 	buzzer = 0;
 	buzzer_reg = buzzer*2;
 	
-	asm(
+	asm volatile(
 	"or x30, x30,%0 \n\t"
         :
 	:"r"(buzzer_reg)
@@ -146,19 +163,7 @@ But for this project, the implementation would be using a riscv core and as of n
       monitorgaslevel();
   }
   
-  int main() {
-      while (1) {
-
-      int gas_level=0;
-      int buzzer=0; 
-      int buzzer_reg = buzzer*2;
-
-
-          detect_gas_level();
-      }
-      return 0;
-  }       	
-          
+ 
           
 ```
 
@@ -174,10 +179,9 @@ This code is tested and verified.
 Commands used to convert C to assembly:
 
 ```
+	/home/sushma/riscv32-toolchain/bin/riscv32-unknown-elf-gcc -c -march=rv32i -mabi=ilp32 -ffreestanding -o ./gas.o gas.c
 
-/home/sushma/riscv32-toolchain/bin/riscv32-unknown-elf-gcc -c -mabi=ilp32 -march=rv32im -ffreestanding -o gas.o gas.c
-/home/sushma/riscv32-toolchain/bin/riscv32-unknown-elf-objdump -d gas.o
-
+	/home/sushma/riscv32-toolchain/bin/riscv32-unknown-elf-objdump -d  gas.o > gas_assembly.txt
 
 ```
 
@@ -186,84 +190,70 @@ Thus this is the obtained assembly code for our program.
 
 
 ```
-         
-     
-gas.o:     file format elf32-littleriscv
-
-
-Disassembly of section .text:
-
-00000000 <monitorgaslevel>:
-   0:	fe010113          	add	sp,sp,-32
-   4:	00812e23          	sw	s0,28(sp)
-   8:	02010413          	add	s0,sp,32
-   c:	fe842783          	lw	a5,-24(s0)
-  10:	00179793          	sll	a5,a5,0x1
-  14:	fef42223          	sw	a5,-28(s0)
-
-00000018 <.L4>:
-  18:	fec42703          	lw	a4,-20(s0)
-  1c:	00100793          	li	a5,1
-  20:	02f71663          	bne	a4,a5,4c <.L2>
-			20: R_RISCV_BRANCH	.L2
-  24:	001f7793          	and	a5,t5,1
-  28:	fef42623          	sw	a5,-20(s0)
-  2c:	00100793          	li	a5,1
-  30:	fef42423          	sw	a5,-24(s0)
-  34:	fe842783          	lw	a5,-24(s0)
-  38:	00179793          	sll	a5,a5,0x1
-  3c:	fef42223          	sw	a5,-28(s0)
-  40:	fe442783          	lw	a5,-28(s0)
-  44:	00ff6f33          	or	t5,t5,a5
-  48:	fd1ff06f          	j	18 <.L4>
-			48: R_RISCV_JAL	.L4
-
-0000004c <.L2>:
-  4c:	001f7793          	and	a5,t5,1
-  50:	fef42623          	sw	a5,-20(s0)
-  54:	fe042423          	sw	zero,-24(s0)
-  58:	fe842783          	lw	a5,-24(s0)
-  5c:	00179793          	sll	a5,a5,0x1
-  60:	fef42223          	sw	a5,-28(s0)
-  64:	fe442783          	lw	a5,-28(s0)
-  68:	00ff6f33          	or	t5,t5,a5
-  6c:	fadff06f          	j	18 <.L4>
-			6c: R_RISCV_JAL	.L4
-
-00000070 <detect_gas_level>:
-  70:	ff010113          	add	sp,sp,-16
-  74:	00112623          	sw	ra,12(sp)
-  78:	00812423          	sw	s0,8(sp)
-  7c:	01010413          	add	s0,sp,16
-  80:	00000097          	auipc	ra,0x0
-			80: R_RISCV_CALL_PLT	monitorgaslevel
-			80: R_RISCV_RELAX	*ABS*
-  84:	000080e7          	jalr	ra # 80 <detect_gas_level+0x10>
-  88:	00000013          	nop
-  8c:	00c12083          	lw	ra,12(sp)
-  90:	00812403          	lw	s0,8(sp)
-  94:	01010113          	add	sp,sp,16
-  98:	00008067          	ret
-
-0000009c <main>:
-  9c:	fe010113          	add	sp,sp,-32
-  a0:	00112e23          	sw	ra,28(sp)
-  a4:	00812c23          	sw	s0,24(sp)
-  a8:	02010413          	add	s0,sp,32
-
-000000ac <.L7>:
-  ac:	fe042623          	sw	zero,-20(s0)
-  b0:	fe042423          	sw	zero,-24(s0)
-  b4:	fe842783          	lw	a5,-24(s0)
-  b8:	00179793          	sll	a5,a5,0x1
-  bc:	fef42223          	sw	a5,-28(s0)
-  c0:	00000097          	auipc	ra,0x0
-			c0: R_RISCV_CALL_PLT	detect_gas_level
-			c0: R_RISCV_RELAX	*ABS*
-  c4:	000080e7          	jalr	ra # c0 <.L7+0x14>
-  c8:	fe5ff06f          	j	ac <.L7>
-			c8: R_RISCV_JAL	.L7 
-   
+	    
+	gas.o:     file format elf32-littleriscv
+	
+	
+	Disassembly of section .text:
+	
+	00000000 <main>:
+	   0:	ff010113          	add	sp,sp,-16
+	   4:	00112623          	sw	ra,12(sp)
+	   8:	00812423          	sw	s0,8(sp)
+	   c:	01010413          	add	s0,sp,16
+	
+	00000010 <.L2>:
+	  10:	00000097          	auipc	ra,0x0
+	  14:	000080e7          	jalr	ra # 10 <.L2>
+	  18:	ff9ff06f          	j	10 <.L2>
+	
+	0000001c <monitorgaslevel>:
+	  1c:	fe010113          	add	sp,sp,-32
+	  20:	00812e23          	sw	s0,28(sp)
+	  24:	02010413          	add	s0,sp,32
+	  28:	fe042623          	sw	zero,-20(s0)
+	  2c:	fec42783          	lw	a5,-20(s0)
+	  30:	00179793          	sll	a5,a5,0x1
+	  34:	fef42423          	sw	a5,-24(s0)
+	  38:	fe842783          	lw	a5,-24(s0)
+	  3c:	00ff6f33          	or	t5,t5,a5
+	  40:	001f7793          	and	a5,t5,1
+	  44:	fef42223          	sw	a5,-28(s0)
+	
+	00000048 <.L6>:
+	  48:	fe442703          	lw	a4,-28(s0)
+	  4c:	00100793          	li	a5,1
+	  50:	02f71263          	bne	a4,a5,74 <.L4>
+	  54:	00100793          	li	a5,1
+	  58:	fef42623          	sw	a5,-20(s0)
+	  5c:	fec42783          	lw	a5,-20(s0)
+	  60:	00179793          	sll	a5,a5,0x1
+	  64:	fef42423          	sw	a5,-24(s0)
+	  68:	fe842783          	lw	a5,-24(s0)
+	  6c:	00ff6f33          	or	t5,t5,a5
+	  70:	fd9ff06f          	j	48 <.L6>
+	
+	00000074 <.L4>:
+	  74:	fe042623          	sw	zero,-20(s0)
+	  78:	fec42783          	lw	a5,-20(s0)
+	  7c:	00179793          	sll	a5,a5,0x1
+	  80:	fef42423          	sw	a5,-24(s0)
+	  84:	fe842783          	lw	a5,-24(s0)
+	  88:	00ff6f33          	or	t5,t5,a5
+	  8c:	fbdff06f          	j	48 <.L6>
+	
+	00000090 <detect_gas_level>:
+	  90:	ff010113          	add	sp,sp,-16
+	  94:	00112623          	sw	ra,12(sp)
+	  98:	00812423          	sw	s0,8(sp)
+	  9c:	01010413          	add	s0,sp,16
+	  a0:	00000097          	auipc	ra,0x0
+	  a4:	000080e7          	jalr	ra # a0 <detect_gas_level+0x10>
+	  a8:	00000013          	nop
+	  ac:	00c12083          	lw	ra,12(sp)
+	  b0:	00812403          	lw	s0,8(sp)
+	  b4:	01010113          	add	sp,sp,16
+	  b8:	00008067          	ret     
      
 
 ```
@@ -284,21 +274,22 @@ Run the Script: Open a terminal or command prompt and navigate to the directory 
 Number of different instructions used. The script will process the assembly code file and display the number of different instructions used along with a list of those instructions.
 
 ```
-        Number of different instructions: 13
-        List of unique instructions:
-        lw
-        j
-        nop
-        auipc
-        sw
-        jalr
-        li
-        bne
-        or
-        ret
-        add
-        and
-        sll
+	Number of different instructions: 13
+	List of unique instructions:
+	and
+	li
+	bne
+	or
+	sw
+	j
+	lw
+	auipc
+	add
+	sll
+	ret
+	nop
+	jalr
+
   
 
 ```
