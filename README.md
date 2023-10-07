@@ -67,84 +67,99 @@ But for this project, the implementation would be using a riscv core and as of n
 ## C program
 
 ```
-         // Function monitoring gas levels using sensor module
-           // Replace these variables with sensor pins and setup environment
         
-        
-          void monitorgaslevel() {
-              int gas_level;// Replace with the GPIO pin connected to sensor's digital out pin
-              int buzzer; // Replace with the GPIO pin connected to the buzzer
-              int buzzer_reg = buzzer*2;
-        
-                   
-           
-          
-              while (1) {
-          
-                  if (gas_level == 1) {
-        
-                      //gas_level = digital_read(0);
-        
-        	asm(
-        	"andi %0, x30, 1\n\t"
-        	:"=r"(gas_level));
-        
-        
-        
-                      // buzzer = digitalwrite(1);
-                      //printf("Buzzer is ON\n");
-        	
-        	buzzer =1;
-          	buzzer_reg = buzzer*2;
-        	asm(
-        	"or x30, x30,%0 \n\t"
-        	:"=r"(buzzer_reg));
-        
-        	 
-        
-        
-        
-        
-        
-                  } else {
-                      // Simulate deactivating the buzzer (replace with actual buzzer control)
-                      // buzzer = digitalWrite(1)
-                      //printf("Buzzer is OFF\n");
-        
-        	buzzer = 0;
-        	buzzer_reg = buzzer*2;
-        	asm(
-        	"or x30, x30,%0 \n\t"
-        	:"=r"(buzzer_reg));
-        	
-        
-        
-                  }
-              }
-          }
-          
-          void detect_gas_level() {
-              monitorgaslevel();
-          }
-          
-          int main() {
-              while (1) {
-        
-              int gas_level=0;
-              int buzzer=0; 
-              int buzzer_reg = buzzer*2;
-        
-           asm(
-        	"or x30, x30, %0\n\t"
-        	:"=r"(buzzer_reg));
-        
-        
-        
-                  detect_gas_level();
-              }
-              return 0;
-          }
+   // Function monitoring gas levels using sensor module
+   // Replace these variables with sensor pins and setup environment
 
+
+  void monitorgaslevel() {
+      int gas_level;// Replace with the GPIO pin connected to sensor's digital out pin
+      int buzzer; // Replace with the GPIO pin connected to the buzzer
+      int buzzer_reg = buzzer*2;
+
+           
+   
+  
+      while (1) {
+  
+          if (gas_level == 1) {
+
+              //gas_level = digital_read(0);
+
+	asm(
+	"andi %0, x30, 1\n\t"
+	
+	:"=r"(gas_level));
+
+
+
+              // buzzer = digitalwrite(1);
+              //printf("Buzzer is ON\n");
+	
+	buzzer = 1;
+  	buzzer_reg = buzzer*2;
+  	
+	asm(
+	"or x30, x30,%0 \n\t"
+        :
+	:"r"(buzzer_reg)
+        :"x30"
+        );
+	 
+
+
+
+
+
+          } else {
+          
+          
+          //gas_level = digital_read(0);
+
+	asm(
+	"andi %0, x30, 1\n\t"
+	
+	:"=r"(gas_level));
+          
+          
+              // Simulate deactivating the buzzer (replace with actual buzzer control)
+              // buzzer = digitalWrite(1)
+              //printf("Buzzer is OFF\n");
+
+	buzzer = 0;
+	buzzer_reg = buzzer*2;
+	
+	asm(
+	"or x30, x30,%0 \n\t"
+        :
+	:"r"(buzzer_reg)
+        :"x30"
+        );
+	 
+
+
+          }
+      }
+  }
+  
+  void detect_gas_level() {
+      monitorgaslevel();
+  }
+  
+  int main() {
+      while (1) {
+
+      int gas_level=0;
+      int buzzer=0; 
+      int buzzer_reg = buzzer*2;
+
+
+          detect_gas_level();
+      }
+      return 0;
+  }       	
+          
+          
 ```
 
 This code is tested and verified.
@@ -160,8 +175,8 @@ Commands used to convert C to assembly:
 
 ```
 
-/home/sushma/riscv32-toolchain/bin/riscv32-unknown-elf-gcc -c -mabi=ilp32 -march=rv32im -ffreestanding -o sample.o sample.c
-/home/sushma/riscv32-toolchain/bin/riscv32-unknown-elf-objdump -d sample.o
+/home/sushma/riscv32-toolchain/bin/riscv32-unknown-elf-gcc -c -mabi=ilp32 -march=rv32im -ffreestanding -o gas.o gas.c
+/home/sushma/riscv32-toolchain/bin/riscv32-unknown-elf-objdump -d gas.o
 
 
 ```
@@ -172,74 +187,84 @@ Thus this is the obtained assembly code for our program.
 
 ```
          
-      
-        sample.o:     file format elf32-littleriscv
-        
-        
-        Disassembly of section .text:
-        
-        00000000 <monitorgaslevel>:
-           0:	fe010113          	add	sp,sp,-32
-           4:	00812e23          	sw	s0,28(sp)
-           8:	02010413          	add	s0,sp,32
-           c:	fe842783          	lw	a5,-24(s0)
-          10:	00179793          	sll	a5,a5,0x1
-          14:	fef42223          	sw	a5,-28(s0)
-        
-        00000018 <.L4>:
-          18:	fec42703          	lw	a4,-20(s0)
-          1c:	00100793          	li	a5,1
-          20:	02f71663          	bne	a4,a5,4c <.L2>
-          24:	001f7793          	and	a5,t5,1
-          28:	fef42623          	sw	a5,-20(s0)
-          2c:	00100793          	li	a5,1
-          30:	fef42423          	sw	a5,-24(s0)
-          34:	fe842783          	lw	a5,-24(s0)
-          38:	00179793          	sll	a5,a5,0x1
-          3c:	fef42223          	sw	a5,-28(s0)
-          40:	00ff6f33          	or	t5,t5,a5
-          44:	fef42223          	sw	a5,-28(s0)
-          48:	fd1ff06f          	j	18 <.L4>
-        
-        0000004c <.L2>:
-          4c:	fe042423          	sw	zero,-24(s0)
-          50:	fe842783          	lw	a5,-24(s0)
-          54:	00179793          	sll	a5,a5,0x1
-          58:	fef42223          	sw	a5,-28(s0)
-          5c:	00ff6f33          	or	t5,t5,a5
-          60:	fef42223          	sw	a5,-28(s0)
-          64:	fb5ff06f          	j	18 <.L4>
-        
-        00000068 <detect_gas_level>:
-          68:	ff010113          	add	sp,sp,-16
-          6c:	00112623          	sw	ra,12(sp)
-          70:	00812423          	sw	s0,8(sp)
-          74:	01010413          	add	s0,sp,16
-          78:	00000097          	auipc	ra,0x0
-          7c:	000080e7          	jalr	ra # 78 <detect_gas_level+0x10>
-          80:	00000013          	nop
-          84:	00c12083          	lw	ra,12(sp)
-          88:	00812403          	lw	s0,8(sp)
-          8c:	01010113          	add	sp,sp,16
-          90:	00008067          	ret
-        
-        00000094 <main>:
-          94:	fe010113          	add	sp,sp,-32
-          98:	00112e23          	sw	ra,28(sp)
-          9c:	00812c23          	sw	s0,24(sp)
-          a0:	02010413          	add	s0,sp,32
-        
-        000000a4 <.L7>:
-          a4:	fe042623          	sw	zero,-20(s0)
-          a8:	fe042423          	sw	zero,-24(s0)
-          ac:	fe842783          	lw	a5,-24(s0)
-          b0:	00179793          	sll	a5,a5,0x1
-          b4:	fef42223          	sw	a5,-28(s0)
-          b8:	00ff6f33          	or	t5,t5,a5
-          bc:	fef42223          	sw	a5,-28(s0)
-          c0:	00000097          	auipc	ra,0x0
-          c4:	000080e7          	jalr	ra # c0 <.L7+0x1c>
-          c8:	fddff06f          	j	a4 <.L7>
+     
+gas.o:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <monitorgaslevel>:
+   0:	fe010113          	add	sp,sp,-32
+   4:	00812e23          	sw	s0,28(sp)
+   8:	02010413          	add	s0,sp,32
+   c:	fe842783          	lw	a5,-24(s0)
+  10:	00179793          	sll	a5,a5,0x1
+  14:	fef42223          	sw	a5,-28(s0)
+
+00000018 <.L4>:
+  18:	fec42703          	lw	a4,-20(s0)
+  1c:	00100793          	li	a5,1
+  20:	02f71663          	bne	a4,a5,4c <.L2>
+			20: R_RISCV_BRANCH	.L2
+  24:	001f7793          	and	a5,t5,1
+  28:	fef42623          	sw	a5,-20(s0)
+  2c:	00100793          	li	a5,1
+  30:	fef42423          	sw	a5,-24(s0)
+  34:	fe842783          	lw	a5,-24(s0)
+  38:	00179793          	sll	a5,a5,0x1
+  3c:	fef42223          	sw	a5,-28(s0)
+  40:	fe442783          	lw	a5,-28(s0)
+  44:	00ff6f33          	or	t5,t5,a5
+  48:	fd1ff06f          	j	18 <.L4>
+			48: R_RISCV_JAL	.L4
+
+0000004c <.L2>:
+  4c:	001f7793          	and	a5,t5,1
+  50:	fef42623          	sw	a5,-20(s0)
+  54:	fe042423          	sw	zero,-24(s0)
+  58:	fe842783          	lw	a5,-24(s0)
+  5c:	00179793          	sll	a5,a5,0x1
+  60:	fef42223          	sw	a5,-28(s0)
+  64:	fe442783          	lw	a5,-28(s0)
+  68:	00ff6f33          	or	t5,t5,a5
+  6c:	fadff06f          	j	18 <.L4>
+			6c: R_RISCV_JAL	.L4
+
+00000070 <detect_gas_level>:
+  70:	ff010113          	add	sp,sp,-16
+  74:	00112623          	sw	ra,12(sp)
+  78:	00812423          	sw	s0,8(sp)
+  7c:	01010413          	add	s0,sp,16
+  80:	00000097          	auipc	ra,0x0
+			80: R_RISCV_CALL_PLT	monitorgaslevel
+			80: R_RISCV_RELAX	*ABS*
+  84:	000080e7          	jalr	ra # 80 <detect_gas_level+0x10>
+  88:	00000013          	nop
+  8c:	00c12083          	lw	ra,12(sp)
+  90:	00812403          	lw	s0,8(sp)
+  94:	01010113          	add	sp,sp,16
+  98:	00008067          	ret
+
+0000009c <main>:
+  9c:	fe010113          	add	sp,sp,-32
+  a0:	00112e23          	sw	ra,28(sp)
+  a4:	00812c23          	sw	s0,24(sp)
+  a8:	02010413          	add	s0,sp,32
+
+000000ac <.L7>:
+  ac:	fe042623          	sw	zero,-20(s0)
+  b0:	fe042423          	sw	zero,-24(s0)
+  b4:	fe842783          	lw	a5,-24(s0)
+  b8:	00179793          	sll	a5,a5,0x1
+  bc:	fef42223          	sw	a5,-28(s0)
+  c0:	00000097          	auipc	ra,0x0
+			c0: R_RISCV_CALL_PLT	detect_gas_level
+			c0: R_RISCV_RELAX	*ABS*
+  c4:	000080e7          	jalr	ra # c0 <.L7+0x14>
+  c8:	fe5ff06f          	j	ac <.L7>
+			c8: R_RISCV_JAL	.L7 
+   
+     
 
 ```
 
