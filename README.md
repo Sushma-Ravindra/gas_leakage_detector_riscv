@@ -179,9 +179,8 @@ This code is tested and verified.
 Commands used to convert C to assembly:
 
 ```
-	/home/sushma/riscv32-toolchain/bin/riscv32-unknown-elf-gcc -c -march=rv32i -mabi=ilp32 -ffreestanding -o ./gas.o gas.c
-
-	/home/sushma/riscv32-toolchain/bin/riscv32-unknown-elf-objdump -d  gas.o > gas_assembly.txt
+/home/sushma/riscv32-toolchain/bin/riscv32-unknown-elf-gcc -march=rv32i -mabi=ilp32 -ffreestanding -nostdlib -o ./out gas.c
+/home/sushma/riscv32-toolchain/bin/riscv32-unknown-elf-objdump -d -r out > assembly.txt
 
 ```
 
@@ -190,71 +189,63 @@ Thus this is the obtained assembly code for our program.
 
 
 ```
-	    
-	gas.o:     file format elf32-littleriscv
+
+out:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00010074 <main>:
+   10074:	ff010113          	add	sp,sp,-16
+   10078:	00112623          	sw	ra,12(sp)
+   1007c:	00812423          	sw	s0,8(sp)
+   10080:	01010413          	add	s0,sp,16
+   10084:	07c000ef          	jal	10100 <detect_gas_level>
+   10088:	ffdff06f          	j	10084 <main+0x10>
+
+0001008c <monitorgaslevel>:
+   1008c:	fe010113          	add	sp,sp,-32
+   10090:	00812e23          	sw	s0,28(sp)
+   10094:	02010413          	add	s0,sp,32
+   10098:	fe042623          	sw	zero,-20(s0)
+   1009c:	fec42783          	lw	a5,-20(s0)
+   100a0:	00179793          	sll	a5,a5,0x1
+   100a4:	fef42423          	sw	a5,-24(s0)
+   100a8:	fe842783          	lw	a5,-24(s0)
+   100ac:	00ff6f33          	or	t5,t5,a5
+   100b0:	001f7793          	and	a5,t5,1
+   100b4:	fef42223          	sw	a5,-28(s0)
+   100b8:	fe442703          	lw	a4,-28(s0)
+   100bc:	00100793          	li	a5,1
+   100c0:	02f71263          	bne	a4,a5,100e4 <monitorgaslevel+0x58>
+   100c4:	00100793          	li	a5,1
+   100c8:	fef42623          	sw	a5,-20(s0)
+   100cc:	fec42783          	lw	a5,-20(s0)
+   100d0:	00179793          	sll	a5,a5,0x1
+   100d4:	fef42423          	sw	a5,-24(s0)
+   100d8:	fe842783          	lw	a5,-24(s0)
+   100dc:	00ff6f33          	or	t5,t5,a5
+   100e0:	fd9ff06f          	j	100b8 <monitorgaslevel+0x2c>
+   100e4:	fe042623          	sw	zero,-20(s0)
+   100e8:	fec42783          	lw	a5,-20(s0)
+   100ec:	00179793          	sll	a5,a5,0x1
+   100f0:	fef42423          	sw	a5,-24(s0)
+   100f4:	fe842783          	lw	a5,-24(s0)
+   100f8:	00ff6f33          	or	t5,t5,a5
+   100fc:	fbdff06f          	j	100b8 <monitorgaslevel+0x2c>
+
+00010100 <detect_gas_level>:
+   10100:	ff010113          	add	sp,sp,-16
+   10104:	00112623          	sw	ra,12(sp)
+   10108:	00812423          	sw	s0,8(sp)
+   1010c:	01010413          	add	s0,sp,16
+   10110:	f7dff0ef          	jal	1008c <monitorgaslevel>
+   10114:	00000013          	nop
+   10118:	00c12083          	lw	ra,12(sp)
+   1011c:	00812403          	lw	s0,8(sp)
+   10120:	01010113          	add	sp,sp,16
+   10124:	00008067          	ret    
 	
-	
-	Disassembly of section .text:
-	
-	00000000 <main>:
-	   0:	ff010113          	add	sp,sp,-16
-	   4:	00112623          	sw	ra,12(sp)
-	   8:	00812423          	sw	s0,8(sp)
-	   c:	01010413          	add	s0,sp,16
-	
-	00000010 <.L2>:
-	  10:	00000097          	auipc	ra,0x0
-	  14:	000080e7          	jalr	ra # 10 <.L2>
-	  18:	ff9ff06f          	j	10 <.L2>
-	
-	0000001c <monitorgaslevel>:
-	  1c:	fe010113          	add	sp,sp,-32
-	  20:	00812e23          	sw	s0,28(sp)
-	  24:	02010413          	add	s0,sp,32
-	  28:	fe042623          	sw	zero,-20(s0)
-	  2c:	fec42783          	lw	a5,-20(s0)
-	  30:	00179793          	sll	a5,a5,0x1
-	  34:	fef42423          	sw	a5,-24(s0)
-	  38:	fe842783          	lw	a5,-24(s0)
-	  3c:	00ff6f33          	or	t5,t5,a5
-	  40:	001f7793          	and	a5,t5,1
-	  44:	fef42223          	sw	a5,-28(s0)
-	
-	00000048 <.L6>:
-	  48:	fe442703          	lw	a4,-28(s0)
-	  4c:	00100793          	li	a5,1
-	  50:	02f71263          	bne	a4,a5,74 <.L4>
-	  54:	00100793          	li	a5,1
-	  58:	fef42623          	sw	a5,-20(s0)
-	  5c:	fec42783          	lw	a5,-20(s0)
-	  60:	00179793          	sll	a5,a5,0x1
-	  64:	fef42423          	sw	a5,-24(s0)
-	  68:	fe842783          	lw	a5,-24(s0)
-	  6c:	00ff6f33          	or	t5,t5,a5
-	  70:	fd9ff06f          	j	48 <.L6>
-	
-	00000074 <.L4>:
-	  74:	fe042623          	sw	zero,-20(s0)
-	  78:	fec42783          	lw	a5,-20(s0)
-	  7c:	00179793          	sll	a5,a5,0x1
-	  80:	fef42423          	sw	a5,-24(s0)
-	  84:	fe842783          	lw	a5,-24(s0)
-	  88:	00ff6f33          	or	t5,t5,a5
-	  8c:	fbdff06f          	j	48 <.L6>
-	
-	00000090 <detect_gas_level>:
-	  90:	ff010113          	add	sp,sp,-16
-	  94:	00112623          	sw	ra,12(sp)
-	  98:	00812423          	sw	s0,8(sp)
-	  9c:	01010413          	add	s0,sp,16
-	  a0:	00000097          	auipc	ra,0x0
-	  a4:	000080e7          	jalr	ra # a0 <detect_gas_level+0x10>
-	  a8:	00000013          	nop
-	  ac:	00c12083          	lw	ra,12(sp)
-	  b0:	00812403          	lw	s0,8(sp)
-	  b4:	01010113          	add	sp,sp,16
-	  b8:	00008067          	ret     
-     
 
 ```
 
@@ -274,23 +265,20 @@ Run the Script: Open a terminal or command prompt and navigate to the directory 
 Number of different instructions used. The script will process the assembly code file and display the number of different instructions used along with a list of those instructions.
 
 ```
-	Number of different instructions: 13
-	List of unique instructions:
-	and
-	li
-	bne
-	or
-	sw
-	j
-	lw
-	auipc
-	add
-	sll
-	ret
-	nop
-	jalr
-
-  
+Number of different instructions: 12
+List of unique instructions:
+li
+sw
+lw
+or
+and
+sll
+nop
+ret
+bne
+j
+add
+jal
 
 ```
 
