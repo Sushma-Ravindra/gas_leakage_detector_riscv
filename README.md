@@ -282,7 +282,7 @@ jal
 
 ```
 
-![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/0c6fb2c5-60c7-4b72-855e-f4e23cd5b565)
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/e72aa393-9713-485f-a14d-472a6a3ad638)
 
 
 
