@@ -36,7 +36,7 @@ void detect_gas_level();
 
    
   
-      while (1) {
+ 
   
           if (gas_level == 1) {
 
@@ -88,7 +88,7 @@ void detect_gas_level();
 
           }
       }
-  }
+  
   
   void detect_gas_level() {
       monitorgaslevel();
