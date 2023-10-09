@@ -105,7 +105,7 @@ void detect_gas_level();
 
    
   
-      while (1) {
+   
   
           if (gas_level == 1) {
 
@@ -157,7 +157,7 @@ void detect_gas_level();
 
           }
       }
-  }
+  
   
   void detect_gas_level() {
       monitorgaslevel();
@@ -190,6 +190,7 @@ Thus this is the obtained assembly code for our program.
 
 ```
 
+
 out:     file format elf32-littleriscv
 
 
@@ -200,7 +201,7 @@ Disassembly of section .text:
    10078:	00112623          	sw	ra,12(sp)
    1007c:	00812423          	sw	s0,8(sp)
    10080:	01010413          	add	s0,sp,16
-   10084:	07c000ef          	jal	10100 <detect_gas_level>
+   10084:	088000ef          	jal	1010c <detect_gas_level>
    10088:	ffdff06f          	j	10084 <main+0x10>
 
 0001008c <monitorgaslevel>:
@@ -225,26 +226,29 @@ Disassembly of section .text:
    100d4:	fef42423          	sw	a5,-24(s0)
    100d8:	fe842783          	lw	a5,-24(s0)
    100dc:	00ff6f33          	or	t5,t5,a5
-   100e0:	fd9ff06f          	j	100b8 <monitorgaslevel+0x2c>
+   100e0:	01c0006f          	j	100fc <monitorgaslevel+0x70>
    100e4:	fe042623          	sw	zero,-20(s0)
    100e8:	fec42783          	lw	a5,-20(s0)
    100ec:	00179793          	sll	a5,a5,0x1
    100f0:	fef42423          	sw	a5,-24(s0)
    100f4:	fe842783          	lw	a5,-24(s0)
    100f8:	00ff6f33          	or	t5,t5,a5
-   100fc:	fbdff06f          	j	100b8 <monitorgaslevel+0x2c>
+   100fc:	00000013          	nop
+   10100:	01c12403          	lw	s0,28(sp)
+   10104:	02010113          	add	sp,sp,32
+   10108:	00008067          	ret
 
-00010100 <detect_gas_level>:
-   10100:	ff010113          	add	sp,sp,-16
-   10104:	00112623          	sw	ra,12(sp)
-   10108:	00812423          	sw	s0,8(sp)
-   1010c:	01010413          	add	s0,sp,16
-   10110:	f7dff0ef          	jal	1008c <monitorgaslevel>
-   10114:	00000013          	nop
-   10118:	00c12083          	lw	ra,12(sp)
-   1011c:	00812403          	lw	s0,8(sp)
-   10120:	01010113          	add	sp,sp,16
-   10124:	00008067          	ret    
+0001010c <detect_gas_level>:
+   1010c:	ff010113          	add	sp,sp,-16
+   10110:	00112623          	sw	ra,12(sp)
+   10114:	00812423          	sw	s0,8(sp)
+   10118:	01010413          	add	s0,sp,16
+   1011c:	f71ff0ef          	jal	1008c <monitorgaslevel>
+   10120:	00000013          	nop
+   10124:	00c12083          	lw	ra,12(sp)
+   10128:	00812403          	lw	s0,8(sp)
+   1012c:	01010113          	add	sp,sp,16
+   10130:	00008067          	ret
 	
 
 ```
