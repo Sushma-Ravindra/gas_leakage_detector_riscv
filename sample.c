@@ -1,86 +1,86 @@
-void monitorgaslevel();
-void detect_gas_level();
-
-
  int main() {
-      while (1) {
 
-          detect_gas_level();
-      }
-      return 0;
-  }
-
-
-
-// Function monitoring gas levels using sensor module
    // Replace these variables with sensor pins and setup environment
-
-  void monitorgaslevel() {
+      int main_switch;//Replace with GPIO pin connected to switch pin 
       int gas_level;// Replace with the GPIO pin connected to sensor's digital out pin
       int buzzer=0; // Replace with the GPIO pin connected to the buzzer
-      int buzzer_reg = buzzer*2;
+      int buzzer_reg = buzzer*4;
+      int led=1; //Replace with GPIO pin connected to the LED
+      int led_reg = led *8;
 
   
     	    
   asm volatile(
 	"or x30, x30, %0\n\t" 
+	"or x30, x30, %1\n\t"
 	:
-	:"r"(buzzer_reg)
+	:"r"(buzzer_reg), "r"(led_reg)
 	:"x30"
 	);
 
-  asm volatile(
-        "andi %0, x30, 1\n\t"
 
-        :"=r"(gas_level));
+  while(1) {
+
+	  asm volatile(
+        	"andi %0, x30, 1\n\t"
+	
+        	:"=r"(main_switch)
+		:
+		:
+ 	);
 
    
   
- 
+      
   
-          if (gas_level == 1) {
+          if (main_switch) {
 
               //gas_level = digital_read(0);
+	 
 
-	
+		asm volatile(
+        		"andi %0, x30, 1\n\t"
+			:"=r"(gas_level)
+        		:
+        		:
+	 	);
+
+	if(gas_level){
   
               // buzzer = digitalwrite(1);
               //printf("Buzzer is ON\n");
 	
 	buzzer = 1;
-  	buzzer_reg = buzzer*2;
   	
-	asm volatile(
-	  "or x30, x30,%0 \n\t"
-          :
-	  :"r"(buzzer_reg)
-          :"x30"
-          );
-	 
+	led = 1;
+  	
+	  } 
 
-
-
-
-
-          } else {
+	  
+	  else {
           
           
-          //gas_level = digital_read(0);
-
-	
-          
-          
+              //gas_level = digital_read(0);         
               // Simulate deactivating the buzzer (replace with actual buzzer control)
               // buzzer = digitalWrite(1)
               //printf("Buzzer is OFF\n");
 
 	buzzer = 0;
-	buzzer_reg = buzzer*2;
-	
+	led=0;	
+	  }
+
+
+//Correspondingly update registers for buzzer and led
+    
+	buzzer_reg = buzzer*4;
+	led_reg = led*8;
+
+
 	asm volatile(
-	"or x30, x30,%0 \n\t"
-        :
-	:"r"(buzzer_reg)
+	"or x30, x30, %0 \n\t"
+        "or x30, x30, %1 \n\t"
+	:
+	:"r"(buzzer_reg), "r"(led_reg)
         :"x30"
         );
 	 
@@ -90,8 +90,7 @@ void detect_gas_level();
       }
   
   
-  void detect_gas_level() {
-      monitorgaslevel();
-  }
+ return 0;
+
+ }
   
- 
