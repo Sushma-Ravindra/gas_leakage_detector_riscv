@@ -287,6 +287,7 @@ Grateful to Mr Kunal Ghosh, Co-Founder, VLSI SYSTEM DESIGN for providing an exce
 
 - Kunal Ghosh, VSD Corp. Pvt. Ltd.
 - Mayank Kabra, IIITB
+- Alwin Shaju, IIITB
 
 
 ## References
