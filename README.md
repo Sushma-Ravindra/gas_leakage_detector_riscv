@@ -65,91 +65,90 @@ But for this project, the implementation would be using a riscv core and as of n
 
 
 ## C program
-
 ```
-  void monitorgaslevel();
-void detect_gas_level();
+   int main() {
 
-
- int main() {
-      while (1) {
-
-          detect_gas_level();
-      }
-      return 0;
-  }
-
-
-
-// Function monitoring gas levels using sensor module
    // Replace these variables with sensor pins and setup environment
-
-  void monitorgaslevel() {
+      int main_switch;//Replace with GPIO pin connected to switch pin 
       int gas_level;// Replace with the GPIO pin connected to sensor's digital out pin
       int buzzer=0; // Replace with the GPIO pin connected to the buzzer
-      int buzzer_reg = buzzer*2;
+      int buzzer_reg = buzzer*4;
+      int led=1; //Replace with GPIO pin connected to the LED
+      int led_reg = led *8;
 
   
     	    
   asm volatile(
 	"or x30, x30, %0\n\t" 
+	"or x30, x30, %1\n\t"
 	:
-	:"r"(buzzer_reg)
+	:"r"(buzzer_reg), "r"(led_reg)
 	:"x30"
 	);
 
-  asm volatile(
-        "andi %0, x30, 1\n\t"
 
-        :"=r"(gas_level));
+  while(1) {
+
+	  asm volatile(
+        	"andi %0, x30, 1\n\t"
+	
+        	:"=r"(main_switch)
+		:
+		:
+ 	);
 
    
   
-   
+      
   
-          if (gas_level == 1) {
+          if (main_switch) {
 
               //gas_level = digital_read(0);
+	 
 
-	
+		asm volatile(
+        		"andi %0, x30, 1\n\t"
+			:"=r"(gas_level)
+        		:
+        		:
+	 	);
+
+	if(gas_level){
   
               // buzzer = digitalwrite(1);
               //printf("Buzzer is ON\n");
 	
 	buzzer = 1;
-  	buzzer_reg = buzzer*2;
   	
-	asm volatile(
-	  "or x30, x30,%0 \n\t"
-          :
-	  :"r"(buzzer_reg)
-          :"x30"
-          );
-	 
+	led = 1;
+  	
+	  } 
 
-
-
-
-
-          } else {
+	  
+	  else {
           
           
-          //gas_level = digital_read(0);
-
-	
-          
-          
+              //gas_level = digital_read(0);         
               // Simulate deactivating the buzzer (replace with actual buzzer control)
               // buzzer = digitalWrite(1)
               //printf("Buzzer is OFF\n");
 
 	buzzer = 0;
-	buzzer_reg = buzzer*2;
-	
+	led=0;	
+	  }
+
+
+//Correspondingly update registers for buzzer and led
+    
+	buzzer_reg = buzzer*4;
+	led_reg = led*8;
+
+
 	asm volatile(
-	"or x30, x30,%0 \n\t"
-        :
-	:"r"(buzzer_reg)
+	"or x30, x30, %0 \n\t"
+        "or x30, x30, %1 \n\t"
+	:
+	:"r"(buzzer_reg), "r"(led_reg)
         :"x30"
         );
 	 
@@ -159,11 +158,11 @@ void detect_gas_level();
       }
   
   
-  void detect_gas_level() {
-      monitorgaslevel();
-  }
+ return 0;
+
+ }
   
- 
+
           
 ```
 
@@ -191,64 +190,55 @@ Thus this is the obtained assembly code for our program.
 ```
 
 
+
 out:     file format elf32-littleriscv
 
 
 Disassembly of section .text:
 
 00010074 <main>:
-   10074:	ff010113          	add	sp,sp,-16
-   10078:	00112623          	sw	ra,12(sp)
-   1007c:	00812423          	sw	s0,8(sp)
-   10080:	01010413          	add	s0,sp,16
-   10084:	088000ef          	jal	1010c <detect_gas_level>
-   10088:	ffdff06f          	j	10084 <main+0x10>
-
-0001008c <monitorgaslevel>:
-   1008c:	fe010113          	add	sp,sp,-32
-   10090:	00812e23          	sw	s0,28(sp)
-   10094:	02010413          	add	s0,sp,32
-   10098:	fe042623          	sw	zero,-20(s0)
-   1009c:	fec42783          	lw	a5,-20(s0)
-   100a0:	00179793          	sll	a5,a5,0x1
-   100a4:	fef42423          	sw	a5,-24(s0)
-   100a8:	fe842783          	lw	a5,-24(s0)
+   10074:	fd010113          	add	sp,sp,-48
+   10078:	02812623          	sw	s0,44(sp)
+   1007c:	03010413          	add	s0,sp,48
+   10080:	fe042623          	sw	zero,-20(s0)
+   10084:	fec42783          	lw	a5,-20(s0)
+   10088:	00279793          	sll	a5,a5,0x2
+   1008c:	fef42223          	sw	a5,-28(s0)
+   10090:	00100793          	li	a5,1
+   10094:	fef42423          	sw	a5,-24(s0)
+   10098:	fe842783          	lw	a5,-24(s0)
+   1009c:	00379793          	sll	a5,a5,0x3
+   100a0:	fef42023          	sw	a5,-32(s0)
+   100a4:	fe442783          	lw	a5,-28(s0)
+   100a8:	fe042703          	lw	a4,-32(s0)
    100ac:	00ff6f33          	or	t5,t5,a5
-   100b0:	001f7793          	and	a5,t5,1
-   100b4:	fef42223          	sw	a5,-28(s0)
-   100b8:	fe442703          	lw	a4,-28(s0)
-   100bc:	00100793          	li	a5,1
-   100c0:	02f71263          	bne	a4,a5,100e4 <monitorgaslevel+0x58>
-   100c4:	00100793          	li	a5,1
-   100c8:	fef42623          	sw	a5,-20(s0)
-   100cc:	fec42783          	lw	a5,-20(s0)
-   100d0:	00179793          	sll	a5,a5,0x1
-   100d4:	fef42423          	sw	a5,-24(s0)
-   100d8:	fe842783          	lw	a5,-24(s0)
-   100dc:	00ff6f33          	or	t5,t5,a5
-   100e0:	01c0006f          	j	100fc <monitorgaslevel+0x70>
-   100e4:	fe042623          	sw	zero,-20(s0)
-   100e8:	fec42783          	lw	a5,-20(s0)
-   100ec:	00179793          	sll	a5,a5,0x1
-   100f0:	fef42423          	sw	a5,-24(s0)
-   100f4:	fe842783          	lw	a5,-24(s0)
-   100f8:	00ff6f33          	or	t5,t5,a5
-   100fc:	00000013          	nop
-   10100:	01c12403          	lw	s0,28(sp)
-   10104:	02010113          	add	sp,sp,32
-   10108:	00008067          	ret
-
-0001010c <detect_gas_level>:
-   1010c:	ff010113          	add	sp,sp,-16
-   10110:	00112623          	sw	ra,12(sp)
-   10114:	00812423          	sw	s0,8(sp)
-   10118:	01010413          	add	s0,sp,16
-   1011c:	f71ff0ef          	jal	1008c <monitorgaslevel>
-   10120:	00000013          	nop
-   10124:	00c12083          	lw	ra,12(sp)
-   10128:	00812403          	lw	s0,8(sp)
-   1012c:	01010113          	add	sp,sp,16
-   10130:	00008067          	ret
+   100b0:	00ef6f33          	or	t5,t5,a4
+   100b4:	001f7793          	and	a5,t5,1
+   100b8:	fcf42e23          	sw	a5,-36(s0)
+   100bc:	fdc42783          	lw	a5,-36(s0)
+   100c0:	fe078ae3          	beqz	a5,100b4 <main+0x40>
+   100c4:	001f7793          	and	a5,t5,1
+   100c8:	fcf42c23          	sw	a5,-40(s0)
+   100cc:	fd842783          	lw	a5,-40(s0)
+   100d0:	00078c63          	beqz	a5,100e8 <main+0x74>
+   100d4:	00100793          	li	a5,1
+   100d8:	fef42623          	sw	a5,-20(s0)
+   100dc:	00100793          	li	a5,1
+   100e0:	fef42423          	sw	a5,-24(s0)
+   100e4:	00c0006f          	j	100f0 <main+0x7c>
+   100e8:	fe042623          	sw	zero,-20(s0)
+   100ec:	fe042423          	sw	zero,-24(s0)
+   100f0:	fec42783          	lw	a5,-20(s0)
+   100f4:	00279793          	sll	a5,a5,0x2
+   100f8:	fef42223          	sw	a5,-28(s0)
+   100fc:	fe842783          	lw	a5,-24(s0)
+   10100:	00379793          	sll	a5,a5,0x3
+   10104:	fef42023          	sw	a5,-32(s0)
+   10108:	fe442783          	lw	a5,-28(s0)
+   1010c:	fe042703          	lw	a4,-32(s0)
+   10110:	00ff6f33          	or	t5,t5,a5
+   10114:	00ef6f33          	or	t5,t5,a4
+   10118:	f9dff06f          	j	100b4 <main+0x40>
 	
 
 ```
@@ -269,20 +259,18 @@ Run the Script: Open a terminal or command prompt and navigate to the directory 
 Number of different instructions used. The script will process the assembly code file and display the number of different instructions used along with a list of those instructions.
 
 ```
-Number of different instructions: 12
+Number of different instructions: 9
 List of unique instructions:
-li
-sw
+and
 lw
 or
-and
-sll
-nop
-ret
-bne
-j
+li
+sw
+beqz
 add
-jal
+j
+sll
+
 
 ```
 
