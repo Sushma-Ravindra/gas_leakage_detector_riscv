@@ -51,7 +51,8 @@ Because of the onboard LM393 comparator IC the MQ135 Gas sensor module can also 
 The digital pin D0 of the sensor will be used to read data by the processor.
 If the gas is detected the indicator LED D0 will turn on and the digital pin will go from logic high to logic low (0V). The LM393 Op-Amp Comparator IC is used to compare the actual gas value with the value set using the potentiometer. If the actual gas value increases than the set value then the digital output pin gets low. This digital pin can directly be used to drive a buzzer or LED.
 
-![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/ba13d7cb-9940-436f-9809-c0055e7e93ca)
+
+![GAS SENSOR](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/deef7303-134b-40d8-be01-91071a11c288)
 
 
 
