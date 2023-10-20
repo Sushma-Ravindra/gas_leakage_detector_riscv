@@ -274,7 +274,8 @@ sll
 
 ```
 
-![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/e72aa393-9713-485f-a14d-472a6a3ad638)
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/6dc968b6-a49e-4c0f-85ae-8b7df7855694)
+
 
 
 
