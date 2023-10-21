@@ -66,6 +66,7 @@ But for this project, the implementation would be using a riscv core and as of n
 
 
 ## C program
+
 ```
    int main() {
 
@@ -108,7 +109,7 @@ But for this project, the implementation would be using a riscv core and as of n
 	 
 
 		asm volatile(
-        		"andi %0, x30, 1\n\t"
+        		"andi %0, x30, 2\n\t"
 			:"=r"(gas_level)
         		:
         		:
@@ -177,10 +178,12 @@ This code is tested and verified.
 
 
 Commands used to convert C to assembly:
+Navigate into the directory where the toolchain is installed ```cd riscv_toolchain```
 
 ```
-/home/sushma/riscv32-toolchain/bin/riscv32-unknown-elf-gcc -march=rv32i -mabi=ilp32 -ffreestanding -nostdlib -o ./out gas.c
-/home/sushma/riscv32-toolchain/bin/riscv32-unknown-elf-objdump -d -r out > assembly.txt
+
+riscv64-unkown-elf-gcc -march=rv32i -mabi=ilp32 -ffreestanding -nostdlib -o ./out gas.c
+riscv64-unknown-elf-objdump -d  -r out > gas_assembly.txt
 
 ```
 
@@ -190,55 +193,53 @@ Thus this is the obtained assembly code for our program.
 
 ```
 
-
-
 out:     file format elf32-littleriscv
 
 
 Disassembly of section .text:
 
-00010074 <main>:
-   10074:	fd010113          	add	sp,sp,-48
-   10078:	02812623          	sw	s0,44(sp)
-   1007c:	03010413          	add	s0,sp,48
-   10080:	fe042623          	sw	zero,-20(s0)
-   10084:	fec42783          	lw	a5,-20(s0)
-   10088:	00279793          	sll	a5,a5,0x2
-   1008c:	fef42223          	sw	a5,-28(s0)
-   10090:	fe042423          	sw	zero,-24(s0)
-   10094:	fe842783          	lw	a5,-24(s0)
-   10098:	00379793          	sll	a5,a5,0x3
-   1009c:	fef42023          	sw	a5,-32(s0)
-   100a0:	fe442783          	lw	a5,-28(s0)
-   100a4:	fe042703          	lw	a4,-32(s0)
-   100a8:	00ff6f33          	or	t5,t5,a5
-   100ac:	00ef6f33          	or	t5,t5,a4
-   100b0:	001f7793          	and	a5,t5,1
-   100b4:	fcf42e23          	sw	a5,-36(s0)
-   100b8:	fdc42783          	lw	a5,-36(s0)
-   100bc:	fe078ae3          	beqz	a5,100b0 <main+0x3c>
-   100c0:	001f7793          	and	a5,t5,1
-   100c4:	fcf42c23          	sw	a5,-40(s0)
-   100c8:	fd842783          	lw	a5,-40(s0)
-   100cc:	00078c63          	beqz	a5,100e4 <main+0x70>
-   100d0:	00100793          	li	a5,1
-   100d4:	fef42623          	sw	a5,-20(s0)
-   100d8:	00100793          	li	a5,1
-   100dc:	fef42423          	sw	a5,-24(s0)
-   100e0:	00c0006f          	j	100ec <main+0x78>
-   100e4:	fe042623          	sw	zero,-20(s0)
-   100e8:	fe042423          	sw	zero,-24(s0)
-   100ec:	fec42783          	lw	a5,-20(s0)
-   100f0:	00279793          	sll	a5,a5,0x2
-   100f4:	fef42223          	sw	a5,-28(s0)
-   100f8:	fe842783          	lw	a5,-24(s0)
-   100fc:	00379793          	sll	a5,a5,0x3
-   10100:	fef42023          	sw	a5,-32(s0)
-   10104:	fe442783          	lw	a5,-28(s0)
-   10108:	fe042703          	lw	a4,-32(s0)
-   1010c:	00ff6f33          	or	t5,t5,a5
-   10110:	00ef6f33          	or	t5,t5,a4
-   10114:	f9dff06f          	j	100b0 <main+0x3c>
+00010054 <main>:
+   10054:	fd010113          	addi	sp,sp,-48
+   10058:	02812623          	sw	s0,44(sp)
+   1005c:	03010413          	addi	s0,sp,48
+   10060:	fe042623          	sw	zero,-20(s0)
+   10064:	fec42783          	lw	a5,-20(s0)
+   10068:	00279793          	slli	a5,a5,0x2
+   1006c:	fef42223          	sw	a5,-28(s0)
+   10070:	fe042423          	sw	zero,-24(s0)
+   10074:	fe842783          	lw	a5,-24(s0)
+   10078:	00379793          	slli	a5,a5,0x3
+   1007c:	fef42023          	sw	a5,-32(s0)
+   10080:	fe442783          	lw	a5,-28(s0)
+   10084:	fe042703          	lw	a4,-32(s0)
+   10088:	00ff6f33          	or	t5,t5,a5
+   1008c:	00ef6f33          	or	t5,t5,a4
+   10090:	001f7793          	andi	a5,t5,1
+   10094:	fcf42e23          	sw	a5,-36(s0)
+   10098:	fdc42783          	lw	a5,-36(s0)
+   1009c:	fe078ae3          	beqz	a5,10090 <main+0x3c>
+   100a0:	002f7793          	andi	a5,t5,2
+   100a4:	fcf42c23          	sw	a5,-40(s0)
+   100a8:	fd842783          	lw	a5,-40(s0)
+   100ac:	00078c63          	beqz	a5,100c4 <main+0x70>
+   100b0:	00100793          	li	a5,1
+   100b4:	fef42623          	sw	a5,-20(s0)
+   100b8:	00100793          	li	a5,1
+   100bc:	fef42423          	sw	a5,-24(s0)
+   100c0:	00c0006f          	j	100cc <main+0x78>
+   100c4:	fe042623          	sw	zero,-20(s0)
+   100c8:	fe042423          	sw	zero,-24(s0)
+   100cc:	fec42783          	lw	a5,-20(s0)
+   100d0:	00279793          	slli	a5,a5,0x2
+   100d4:	fef42223          	sw	a5,-28(s0)
+   100d8:	fe842783          	lw	a5,-24(s0)
+   100dc:	00379793          	slli	a5,a5,0x3
+   100e0:	fef42023          	sw	a5,-32(s0)
+   100e4:	fe442783          	lw	a5,-28(s0)
+   100e8:	fe042703          	lw	a4,-32(s0)
+   100ec:	00ff6f33          	or	t5,t5,a5
+   100f0:	00ef6f33          	or	t5,t5,a4
+   100f4:	f9dff06f          	j	10090 <main+0x3c>
 	
 
 ```
@@ -259,23 +260,24 @@ Run the Script: Open a terminal or command prompt and navigate to the directory 
 Number of different instructions used. The script will process the assembly code file and display the number of different instructions used along with a list of those instructions.
 
 ```
+
 Number of different instructions: 9
 List of unique instructions:
-and
-lw
-or
 li
-sw
-beqz
-add
+lw
+addi
 j
-sll
+sw
+or
+andi
+slli
+beqz
 
 
 ```
 
-![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/6dc968b6-a49e-4c0f-85ae-8b7df7855694)
 
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/8044bcbc-ecf7-487b-9ffa-fc62bb507add)
 
 
 
