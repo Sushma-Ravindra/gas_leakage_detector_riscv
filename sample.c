@@ -39,7 +39,7 @@
 	 
 
 		asm volatile(
-        		"andi %0, x30, 1\n\t"
+        		"andi %0, x30, 2\n\t"
 			:"=r"(gas_level)
         		:
         		:
