@@ -326,7 +326,7 @@ For inputs 00, all the output pins are 0 as well
 ![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/02640526-538e-4bab-9b78-682c86aa99a3)
 
 
-We have seen a few cases and verified the output. We can observe the instruction bit toggling and the input can be seen in the input_gpio_pins the output has been written in the output_gpio_pins. We can also observe the write_done being flagged once the output has been written. Thus we can conclude the processor code is working as expected and we can now move ahead with the synthesis and Gate level simulations. After write_done=1, ID is begun and the PC increments.
+We have seen a few cases and verified the output. We can observe the instruction bit toggling and the input can be seen in the input_gpio_pins the output has been written in the output_gpio_pins. We can also observe the write_done being flagged once the output has been written. After write_done=1, ID is begun and the PC increments. Thus we can conclude the processor code is working as expected and we can now move ahead with the synthesis and Gate level simulations. 
 
 
 ## Acknowledgement
@@ -336,8 +336,9 @@ We have seen a few cases and verified the output. We can observe the instruction
 Grateful to Mr Kunal Ghosh, Co-Founder, VLSI SYSTEM DESIGN for providing an excellent platform to learn and expand our skills on a custom RISCV architecture design and ensuring that the learning process remained smooth. 
 
 - Kunal Ghosh, VSD Corp. Pvt. Ltd.
-- Mayank Kabra, IIITB
 - Alwin Shaju, IIITB
+- Mayank Kabra, IIITB
+
 
 
 ## References
