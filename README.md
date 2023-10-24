@@ -300,7 +300,13 @@ spike pk out
 
 Results:
 
+When the main switch is on and then the sensor pin is also high, it means that both the buzzer and led should turn on. 
+Because of the masking operation being performed, the test4 value is set to 1100 as inputs are being masked; similarly the buffer_reg is 4 or 100 which is due to shiting and masking. By the same logic, the led_reg is 8 or 1000 due to the effects of shifting and masking.
+
+
 ![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/285a7319-7594-419a-bc6f-92867c816eac)
+
+When the main switch is on and then the sensor pin is low it means that both the buzzer and led should turn off as is obtained below. 
 
 ![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/d8577cce-7781-47c3-a43a-20c24c264fa0)
 
