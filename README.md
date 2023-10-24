@@ -182,7 +182,7 @@ Navigate into the directory where the toolchain is installed ```cd riscv_toolcha
 
 ```
 
-riscv64-unkown-elf-gcc -march=rv32i -mabi=ilp32 -ffreestanding -nostdlib -o ./out gas.c
+riscv64-unknown-elf-gcc -march=rv32i -mabi=ilp32 -ffreestanding -nostdlib -o ./out gas.c
 riscv64-unknown-elf-objdump -d  -r out > gas_assembly.txt
 
 ```
@@ -192,6 +192,7 @@ Thus this is the obtained assembly code for our program.
 
 
 ```
+
 
 out:     file format elf32-littleriscv
 
@@ -210,37 +211,42 @@ Disassembly of section .text:
    10074:	fe842783          	lw	a5,-24(s0)
    10078:	00379793          	slli	a5,a5,0x3
    1007c:	fef42023          	sw	a5,-32(s0)
-   10080:	fe442783          	lw	a5,-28(s0)
-   10084:	fe042703          	lw	a4,-32(s0)
-   10088:	00ff6f33          	or	t5,t5,a5
-   1008c:	00ef6f33          	or	t5,t5,a4
-   10090:	001f7793          	andi	a5,t5,1
-   10094:	fcf42e23          	sw	a5,-36(s0)
-   10098:	fdc42783          	lw	a5,-36(s0)
-   1009c:	fe078ae3          	beqz	a5,10090 <main+0x3c>
-   100a0:	002f7793          	andi	a5,t5,2
+   10080:	ff300793          	li	a5,-13
+   10084:	fcf42e23          	sw	a5,-36(s0)
+   10088:	fe442783          	lw	a5,-28(s0)
+   1008c:	fe042703          	lw	a4,-32(s0)
+   10090:	fdc42683          	lw	a3,-36(s0)
+   10094:	00df7f33          	and	t5,t5,a3
+   10098:	00ff6f33          	or	t5,t5,a5
+   1009c:	00ef6f33          	or	t5,t5,a4
+   100a0:	001f7793          	andi	a5,t5,1
    100a4:	fcf42c23          	sw	a5,-40(s0)
    100a8:	fd842783          	lw	a5,-40(s0)
-   100ac:	00078c63          	beqz	a5,100c4 <main+0x70>
-   100b0:	00100793          	li	a5,1
-   100b4:	fef42623          	sw	a5,-20(s0)
-   100b8:	00100793          	li	a5,1
-   100bc:	fef42423          	sw	a5,-24(s0)
-   100c0:	00c0006f          	j	100cc <main+0x78>
-   100c4:	fe042623          	sw	zero,-20(s0)
-   100c8:	fe042423          	sw	zero,-24(s0)
-   100cc:	fec42783          	lw	a5,-20(s0)
-   100d0:	00279793          	slli	a5,a5,0x2
-   100d4:	fef42223          	sw	a5,-28(s0)
-   100d8:	fe842783          	lw	a5,-24(s0)
-   100dc:	00379793          	slli	a5,a5,0x3
-   100e0:	fef42023          	sw	a5,-32(s0)
-   100e4:	fe442783          	lw	a5,-28(s0)
-   100e8:	fe042703          	lw	a4,-32(s0)
-   100ec:	00ff6f33          	or	t5,t5,a5
-   100f0:	00ef6f33          	or	t5,t5,a4
-   100f4:	f9dff06f          	j	10090 <main+0x3c>
-	
+   100ac:	fe078ae3          	beqz	a5,100a0 <main+0x4c>
+   100b0:	002f7793          	andi	a5,t5,2
+   100b4:	fcf42a23          	sw	a5,-44(s0)
+   100b8:	fd442783          	lw	a5,-44(s0)
+   100bc:	00078c63          	beqz	a5,100d4 <main+0x80>
+   100c0:	00100793          	li	a5,1
+   100c4:	fef42623          	sw	a5,-20(s0)
+   100c8:	00100793          	li	a5,1
+   100cc:	fef42423          	sw	a5,-24(s0)
+   100d0:	00c0006f          	j	100dc <main+0x88>
+   100d4:	fe042623          	sw	zero,-20(s0)
+   100d8:	fe042423          	sw	zero,-24(s0)
+   100dc:	fec42783          	lw	a5,-20(s0)
+   100e0:	00279793          	slli	a5,a5,0x2
+   100e4:	fef42223          	sw	a5,-28(s0)
+   100e8:	fe842783          	lw	a5,-24(s0)
+   100ec:	00379793          	slli	a5,a5,0x3
+   100f0:	fef42023          	sw	a5,-32(s0)
+   100f4:	fe442783          	lw	a5,-28(s0)
+   100f8:	fe042703          	lw	a4,-32(s0)
+   100fc:	fdc42683          	lw	a3,-36(s0)
+   10100:	00df7f33          	and	t5,t5,a3
+   10104:	00ff6f33          	or	t5,t5,a5
+   10108:	00ef6f33          	or	t5,t5,a4
+   1010c:	f95ff06f          	j	100a0 <main+0x4c>
 
 ```
 
