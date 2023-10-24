@@ -298,7 +298,7 @@ riscv64-unknown-elf-gcc -march=rv64i -mabi=lp64 -ffreestanding -o out gas_leak.c
 spike pk out
 ```
 
-Results:
+__Results:__
 
 When the main switch is on and then the sensor pin is also high, it means that both the buzzer and led should turn on. 
 Because of the masking operation being performed, the test4 value is set to 1100 as inputs are being masked; similarly the buffer_reg is 4 or 100 which is due to shiting and masking. By the same logic, the led_reg is 8 or 1000 due to the effects of shifting and masking.
@@ -309,6 +309,24 @@ Because of the masking operation being performed, the test4 value is set to 1100
 When the main switch is on and then the sensor pin is low it means that both the buzzer and led should turn off as is obtained below. 
 
 ![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/d8577cce-7781-47c3-a43a-20c24c264fa0)
+
+
+
+## Functional Simulation
+
+We will perform functional simulation to test the functionality of the verilog code generated for the processor chip. We have tested the processor and its functionality for various input combinations and compare the output generated with the desired expected output. 
+
+For INPUTS 11 ie, main_switch and gas_sensor_pin the corresponding output is also 11 ie both buzzer and led must turn on.
+
+![Screenshot from 2023-10-25 01-18-58](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/67598339-45b3-4e30-aa13-7648c09a63e2)
+
+
+For inputs 00, all the output pins are 0 as well
+
+![Screenshot from 2023-10-25 01-49-38](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/276fab34-ed47-440b-9476-a3562f46abe8)
+
+
+We have seen a few cases and verified the output. We can observe the instruction bit toggling and the input can be seen in the input_gpio_pins the output has been written in the output_gpio_pins. We can also observe the write_done being flagged once the output has been written. Thus we can conclude the processor code is working as expected and we can now move ahead with the synthesis and Gate level simulations. After write_done=1, ID is begun and the PC increments.
 
 
 ## Acknowledgement
