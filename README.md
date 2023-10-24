@@ -280,6 +280,21 @@ beqz
 ![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/8044bcbc-ecf7-487b-9ffa-fc62bb507add)
 
 
+## Simulation using Spike 
+
+Simulate the C code using spike simulator with the following commands:
+
+```
+riscv64-unknown-elf-gcc -march=rv64i -mabi=lp64 -ffreestanding -o out gas_leak.c
+spike pk out
+```
+
+Results:
+
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/285a7319-7594-419a-bc6f-92867c816eac)
+
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/d8577cce-7781-47c3-a43a-20c24c264fa0)
+
 
 ## Acknowledgement
 
