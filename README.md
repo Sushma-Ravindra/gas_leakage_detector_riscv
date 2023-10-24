@@ -267,23 +267,26 @@ Number of different instructions used. The script will process the assembly code
 
 ```
 
-Number of different instructions: 9
+Number of different instructions: 10
 List of unique instructions:
-li
-lw
-addi
-j
-sw
 or
-andi
-slli
+lw
 beqz
+sw
+and
+j
+slli
+li
+addi
+andi
+
 
 
 ```
 
 
-![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/8044bcbc-ecf7-487b-9ffa-fc62bb507add)
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/1fd13dd2-5e6b-4ffb-b5b6-2608f53750f9)
+
 
 
 ## Simulation using Spike 
