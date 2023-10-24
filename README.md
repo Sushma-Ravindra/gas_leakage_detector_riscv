@@ -323,7 +323,7 @@ For INPUTS 11 ie, main_switch and gas_sensor_pin the corresponding output is als
 
 For inputs 00, all the output pins are 0 as well
 
-![Screenshot from 2023-10-25 01-49-38](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/276fab34-ed47-440b-9476-a3562f46abe8)
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/02640526-538e-4bab-9b78-682c86aa99a3)
 
 
 We have seen a few cases and verified the output. We can observe the instruction bit toggling and the input can be seen in the input_gpio_pins the output has been written in the output_gpio_pins. We can also observe the write_done being flagged once the output has been written. Thus we can conclude the processor code is working as expected and we can now move ahead with the synthesis and Gate level simulations. After write_done=1, ID is begun and the PC increments.
