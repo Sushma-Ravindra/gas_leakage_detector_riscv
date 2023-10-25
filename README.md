@@ -304,9 +304,13 @@ When the main switch is on and then the sensor pin is also high, it means that b
 Because of the masking operation being performed, the test4 value is set to 1100 as inputs are being masked; similarly the buffer_reg is 4 or 100 which is due to shiting and masking. By the same logic, the led_reg is 8 or 1000 due to the effects of shifting and masking.
 
 Test is the case where all the input and output pins are reset to 0. 
+
 To obtain test1 value, the while(1) loop is entered but yet no input values are read. 
+
 To obtain test 2 value, the inner if loop of the C code is entered because, the main_switch value was read to be 1. 
+
 To obtain test 3 value, the else condition must be satisfied which as per the inputs given here is not, hence test3 is not displayed. 
+
 Finally the value of test4 is obtained by writing the values into our output pins, which is 11 as per our functionality. Masking the input bits we have 1100 as our test4 value which is in decimal 12
 
 
