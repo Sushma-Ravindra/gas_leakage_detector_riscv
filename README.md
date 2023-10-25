@@ -291,7 +291,7 @@ andi
 
 ## Simulation using Spike 
 
-Simulate the C code using spike simulator with the following commands:
+Simulate the C code as in the ```spike_sim.c``` file using spike simulator with the following commands:
 
 ```
 riscv64-unknown-elf-gcc -march=rv64i -mabi=lp64 -ffreestanding -o out gas_leak.c
@@ -302,6 +302,12 @@ __Results:__
 
 When the main switch is on and then the sensor pin is also high, it means that both the buzzer and led should turn on. 
 Because of the masking operation being performed, the test4 value is set to 1100 as inputs are being masked; similarly the buffer_reg is 4 or 100 which is due to shiting and masking. By the same logic, the led_reg is 8 or 1000 due to the effects of shifting and masking.
+
+Test is the case where all the input and output pins are reset to 0. 
+To obtain test1 value, the while(1) loop is entered but yet no input values are read. 
+To obtain test 2 value, the inner if loop of the C code is entered because, the main_switch value was read to be 1. 
+To obtain test 3 value, the else condition must be satisfied which as per the inputs given here is not, hence test3 is not displayed. 
+Finally the value of test4 is obtained by writing the values into our output pins, which is 11 as per our functionality. Masking the input bits we have 1100 as our test4 value which is in decimal 12
 
 
 ![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/285a7319-7594-419a-bc6f-92867c816eac)
@@ -316,14 +322,18 @@ When the main switch is on and then the sensor pin is low it means that both the
 
 We will perform functional simulation to test the functionality of the verilog code generated for the processor chip. We have tested the processor and its functionality for various input combinations and compare the output generated with the desired expected output. 
 
-For INPUTS 11 ie, main_switch and gas_sensor_pin the corresponding output is also 11 ie both buzzer and led must turn on.
+For INPUTS 11 ie, main_switch and gas_sensor_pin being high the corresponding output is also 11 ie both buzzer and led must turn on.
 
 ![Screenshot from 2023-10-25 01-18-58](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/67598339-45b3-4e30-aa13-7648c09a63e2)
 
-
-For inputs 00, all the output pins are 0 as well
+For inputs 00, all the output pins are 00 as well.
 
 ![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/02640526-538e-4bab-9b78-682c86aa99a3)
+
+For inputs 10, the output pins must still be 00. Because if no gas is detected then both buzzer and led should be off.
+
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/2dd313a3-01c9-4003-b82f-38e6033999f7)
+
 
 
 We have seen a few cases and verified the output. We can observe the instruction bit toggling and the input can be seen in the input_gpio_pins the output has been written in the output_gpio_pins. We can also observe the write_done being flagged once the output has been written. After write_done=1, ID is begun and the PC increments. Thus we can conclude the processor code is working as expected and we can now move ahead with the synthesis and Gate level simulations. 
