@@ -429,7 +429,7 @@ For inputs 00, all the output pins are 00 as well.
 
 For inputs 10, the output pins must still be 00. Because if no gas is detected then both buzzer and led should be off.
 
-![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/2dd313a3-01c9-4003-b82f-38e6033999f7)
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/34f45ddd-edb1-450c-af6c-bae2f49c6407)
 
 For inputs 01, the output pins must still be 00. Because if no gas is detected then both buzzer and led should be off.
 
@@ -437,6 +437,11 @@ For inputs 01, the output pins must still be 00. Because if no gas is detected t
 
 
 We have seen a few cases and verified the output. We can observe the instruction decode bit toggling and the input can be seen in the input_gpio_pins the output has been written in the output_gpio_pins. We can also observe the write_done being flagged once the output has been written. After write_done=1, ID is begun and the PC increments. Thus we can conclude the processor code is working as expected and we can now move ahead with the synthesis and Gate level simulations. 
+
+
+
+
+
 
 
 ## Acknowledgement
