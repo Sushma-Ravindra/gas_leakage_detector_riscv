@@ -439,6 +439,17 @@ For inputs 01, the output pins must still be 00. Because if no gas is detected t
 We have seen a few cases and verified the output. We can observe the instruction decode bit toggling and the input can be seen in the input_gpio_pins the output has been written in the output_gpio_pins. We can also observe the write_done being flagged once the output has been written. After write_done=1, ID is begun and the PC increments. Thus we can conclude the processor code is working as expected and we can now move ahead with the synthesis and Gate level simulations. 
 
 
+## Verifying Instructions 
+
+The first instruction of our assembly is with the stack pointer ``` addi	sp,sp,-48```. The register file x45 is the stack pointer and we see the addi operation being perfomed on it.
+The initial value of SP is FF which changes to CF after performing the operation.
+
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/55649919-dc13-4bb2-b57b-cfc683977730)
+
+
+Next  we have instruction ``` li	a5,-13``` in the register file x58. Here after this operation is being performed.
+
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/467a3a5c-0c4a-4ac2-ac8a-887cc5a1b567)
 
 
 
