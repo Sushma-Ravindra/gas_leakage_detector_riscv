@@ -416,21 +416,27 @@ When the main switch is on and then the sensor pin is low it means that both the
 
 We will perform functional simulation to test the functionality of the verilog code generated for the processor chip. We have tested the processor and its functionality for various input combinations and compare the output generated with the desired expected output. 
 
-For INPUTS 11 ie, main_switch and gas_sensor_pin being high the corresponding output is also 11 ie both buzzer and led must turn on.
+For inputs 11 ie, main_switch and gas_sensor_pin being high the corresponding output is also 11 ie both buzzer and led must turn on.
 
-![Screenshot from 2023-10-25 01-18-58](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/67598339-45b3-4e30-aa13-7648c09a63e2)
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/d8b3cd90-da08-4c1b-92e7-7a01a3cd47d6)
+
+Since we are performing masking, t the output is first 00 then goes to 01 and finally settles at 11 These intermediateglitches are because of masking process being performed.
 
 For inputs 00, all the output pins are 00 as well.
 
-![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/02640526-538e-4bab-9b78-682c86aa99a3)
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/5d59e63e-ee02-48b4-8850-1b1a0e3cced4)
+
 
 For inputs 10, the output pins must still be 00. Because if no gas is detected then both buzzer and led should be off.
 
 ![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/2dd313a3-01c9-4003-b82f-38e6033999f7)
 
+For inputs 01, the output pins must still be 00. Because if no gas is detected then both buzzer and led should be off.
+
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/28469de5-e22c-437c-a2da-ae268ea1881a)
 
 
-We have seen a few cases and verified the output. We can observe the instruction bit toggling and the input can be seen in the input_gpio_pins the output has been written in the output_gpio_pins. We can also observe the write_done being flagged once the output has been written. After write_done=1, ID is begun and the PC increments. Thus we can conclude the processor code is working as expected and we can now move ahead with the synthesis and Gate level simulations. 
+We have seen a few cases and verified the output. We can observe the instruction decode bit toggling and the input can be seen in the input_gpio_pins the output has been written in the output_gpio_pins. We can also observe the write_done being flagged once the output has been written. After write_done=1, ID is begun and the PC increments. Thus we can conclude the processor code is working as expected and we can now move ahead with the synthesis and Gate level simulations. 
 
 
 ## Acknowledgement
