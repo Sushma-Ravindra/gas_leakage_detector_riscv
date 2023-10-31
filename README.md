@@ -423,7 +423,7 @@ For inputs 11 ie, main_switch and gas_sensor_pin being high the corresponding ou
 Since we are performing masking, t the output is first 00 then goes to 01 and finally settles at 11 These intermediateglitches are because of masking process being performed.
 
 __Here, in the above image note that the output is changing to 11 only after the instructions are being decoded at a specific ID stage as shown below and does not change simultaneously with input change.__
-
+ ``` 1010c:	f95ff06f          	j	100a0 <main+0x4c>```
 
 For inputs 00, all the output pins are 00 as well.
 
