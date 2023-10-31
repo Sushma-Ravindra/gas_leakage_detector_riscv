@@ -454,6 +454,35 @@ Next  we have instruction ``` li	a5,-13``` in the register file x58. Here after 
 
 ## Gate Level Simulation (GLS) 
 
+### Synthesis
+
+Yosys is a Verilog HDL synthesis tool. This means that it takes a behavioural design description as input and generates an RTL, logical gate or physical gate level description of the design as output. Yosys' main strengths are behavioural and RTL synthesis. Yosys is made use of here to generate the netlist.
+
+The idea of GLS is to generate the simulation output by running test bench which was designed with the initial verilog processor with netlist file generated from synthesis as design under test. Netlist is essentially supposed to be the same as RTL code, therefore, same test bench can be used for it. We perform this to verify logical correctness of the design after synthesizing it. Also ensuring the timing of the design is met. Folllowing are the commands to we need to convert Rtl code to netlist in yosys for that commands are :
+
+
+```
+read_liberty -lib sky130_fd_sc_hd__tt_025C_1v80_256.lib 
+read_verilog processor.v 
+synth -top wrapper
+dfflibmap -liberty sky130_fd_sc_hd__tt_025C_1v80_256.lib 
+abc -liberty sky130_fd_sc_hd__tt_025C_1v80_256.lib
+write_verilog synth_processor_test.v
+
+```
+The logic of the processor (synth_processor_test) will be realizable using gates in the sky130_fd_sc_hd__tt_025C_1v80_256.lib file.
+Below is the snippet showing the synthesis results and synthesized circuit for processor.
+
+
+
+
+Verifying the functionality of the newly generated netlist using iverilog.
+
+```
+iverilog -o test synth_processor_test.v testbench.v sky130_sram_1kbyte_1rw1r_32x256_8.v sky130_fd_sc_hd.v primitives.v
+
+```
+
 
 ![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/de2fa2ce-b2e9-481e-9b74-d41d6a0cdb5b)
 
