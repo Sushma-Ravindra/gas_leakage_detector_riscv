@@ -470,10 +470,16 @@ abc -liberty sky130_fd_sc_hd__tt_025C_1v80_256.lib
 write_verilog synth_processor_test.v
 
 ```
+
+
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/f79f38c8-924f-4d69-b48f-3c28d8dc0ba8)
+
+
 The logic of the processor (synth_processor_test) will be realizable using gates in the sky130_fd_sc_hd__tt_025C_1v80_256.lib file.
-Below is the snippet showing the synthesis results and synthesized circuit for processor.
 
+Below is the snippet showing the synthesis results and synthesized circuit for wrapper module in the processor. ```show wrapper```
 
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/a9d0734f-88ca-4ec4-b918-05a06f8e6d2b)
 
 
 Verifying the functionality of the newly generated netlist using iverilog.
