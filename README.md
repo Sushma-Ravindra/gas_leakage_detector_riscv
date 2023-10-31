@@ -422,6 +422,9 @@ For inputs 11 ie, main_switch and gas_sensor_pin being high the corresponding ou
 
 Since we are performing masking, t the output is first 00 then goes to 01 and finally settles at 11 These intermediateglitches are because of masking process being performed.
 
+__Here, note that the output is changing to 11 only after the instructions are being decoded at a specific ID stage as shown below and does not change simultaneously with input change.__
+
+
 For inputs 00, all the output pins are 00 as well.
 
 ![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/5d59e63e-ee02-48b4-8850-1b1a0e3cced4)
