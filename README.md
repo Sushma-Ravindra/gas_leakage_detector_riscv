@@ -483,12 +483,19 @@ iverilog -o test synth_processor_test.v testbench.v sky130_sram_1kbyte_1rw1r_32x
 
 ```
 
+TEST CASE 1: 
+
+INPUT 11: As per function, when main switch and sensor output is high then the buzzer and led must turn on ie Output 11 as seen below and is verified with the functional simulation result.
 
 ![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/de2fa2ce-b2e9-481e-9b74-d41d6a0cdb5b)
 
+Here, note that the output is changing to 11 only after the instructions are being decoded at a specific ID stage as shown below and does not change simultanwously with input change. 
+
 ![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/6f57cca9-6d49-405a-96f2-99a211117ab3)
 
-![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/3c946bbc-10f1-465e-b01d-8ced97bf8150)
+TEST CASE 2: 
+
+INPUT 10:  As per function, when main switch is high and sensor output is low then the buzzer and led must turn off ie Output 00 as seen below and is verified with the functional simulation result 
 
 ![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/d8ea71db-4a3b-49ca-a74f-2cfd52acc054)
 
