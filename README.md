@@ -452,8 +452,16 @@ Next  we have instruction ``` li	a5,-13``` in the register file x58. Here after 
 ![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/467a3a5c-0c4a-4ac2-ac8a-887cc5a1b567)
 
 
+## Gate Level Simulation (GLS) 
 
 
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/de2fa2ce-b2e9-481e-9b74-d41d6a0cdb5b)
+
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/6f57cca9-6d49-405a-96f2-99a211117ab3)
+
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/3c946bbc-10f1-465e-b01d-8ced97bf8150)
+
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/d8ea71db-4a3b-49ca-a74f-2cfd52acc054)
 
 ## Acknowledgement
 
