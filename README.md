@@ -752,6 +752,53 @@ Detail Routing etail Routing seeks to repair any DRC violations following track 
 run_routing
 
 ```
+![Screenshot from 2023-11-14 19-09-28](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/404aa889-1b93-44dd-a7f4-3037d6cf79e5)
+
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/ee705b5c-28d7-441e-924c-5c362c1e06a2)
+
+
+Invoke magic after navigating to the routing directory 
+
+```
+magic -T /home/sushma/.volare/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.nom.lef def read wrapper.def &
+
+```
+
+![Screenshot from 2023-11-14 19-16-10](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/79a9c995-7432-4521-bd00-801c869e6ee8)
+
+![Screenshot from 2023-11-14 19-17-01](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/0c81abe5-5228-4701-8a8d-03895b3dd094)
+
+__Area of the design__
+
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/a9c92ef6-2057-47ca-a6be-999821265a1e)
+
+
+#### Post timing Reports 
+
+__AREA__
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/aa08a487-0c6b-450a-b834-d3ba91aae6d4)
+
+
+__SLACK__
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/265dfc1c-eda1-4f35-966c-a2b6fe1b8609)
+
+
+__SKEW__
+
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/8fd79745-6ee8-4e76-98d4-913b0fa08450)
+
+
+__POWER__
+
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/637b446d-82b3-4473-8796-9462466ff213)
+
+
+#### DRC Checks 
+
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/a493ca64-30b3-4196-9764-e9ef0b7a0341)
+
+
+
 
 
 
