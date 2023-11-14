@@ -575,8 +575,8 @@ make mount
 ### Synthesis 
 
 Synthesis is the process of converting RTL code, typically written in hardware description languages like Verilog or VHDL, into a gate-level netlist. It involves mapping the functionality specified in the RTL code to a library of standard cells, such as NAND, NOR, XOR gates, etc., provided by the target technology.
-    Inputs : RTL, Technology libraries, Constraints (Environment, clocks, IO delays etc.)
-    Outputs : Netlist , SDC, Reports etc.
+Inputs : RTL, Technology libraries, Constraints (Environment, clocks, IO delays etc.)
+Outputs : Netlist , SDC, Reports etc.
 GTECH Mapping – Consists of mapping the HDL netlist to generic gates what are used to perform logical optimization based on AIGERs and other topologies created from the generic mapped netlist.
 Technology Mapping – Consists of mapping the post-optimized GTECH netlist to standard cells described in the PDK
 
@@ -599,26 +599,26 @@ Before we are going for the floor planning to make sure that inputs are used for
 
 Inputs for floorplan:
 
-    Netlist (.v)
-    Technology file (techlef)
-    Timing Library files (.lib)
-    Physical library (.lef)
-    Synopsys design constraints (.sdc)
+Netlist (.v)
+Technology file (techlef)
+Timing Library files (.lib)
+Physical library (.lef)
+Synopsys design constraints (.sdc)
 
 Floorplan control parameter:
 core area depends upon : 
 
-    Aspect ratio:  Aspect ratio will decide the size and shape of the chip. It is the ratio between horizontal routing resources to vertical routing resources (or) ratio of height and width.    Aspect ratio = width/height 
-    Core utilization:- Utilization will define the area occupied by the standard cells, macros, and other cells.If core utilization is 0.8 (80%) that means 80% of the core area is used for placing the standard cells, macros, and other cells, and the remaining 20% is used for routing purposes. 
+Aspect ratio:  Aspect ratio will decide the size and shape of the chip. It is the ratio between horizontal routing resources to vertical routing resources (or) ratio of height and width.    Aspect ratio = width/height 
+Core utilization:- Utilization will define the area occupied by the standard cells, macros, and other cells.If core utilization is 0.8 (80%) that means 80% of the core area is used for placing the standard cells, macros, and other cells, and the remaining 20% is used for routing purposes. 
 
-         core utilization = (macros area + std cell area +pads area)/ total core area
+core utilization = (macros area + std cell area +pads area)/ total core area
 Pad placement:
 
 In ASIC design three types of IO Pads. Generally pad placement and pin placement is done by Top-Level people. It is critical to the functional operation of an ASIC design to ensure that the pads have adequate power and ground connections and are placed properly in order to eliminate electro-migration and current-switching related problems.
 
-    Power
-    Ground
-    Signal
+Power
+Ground
+Signal
 
 
 
@@ -652,33 +652,33 @@ __DIE AND CORE AREA POST FLOORPLAN___
 
 ## Placement 
 
-    Placement is the process of determining the locations of standard cells present in the Netlist by placing these cells inside the core area.
-    The cells are logically present in the Netlist. Looking at the physical presence of cells in LEF, tool places at the desired location.
-    Placement of cells are most challenging and important phase in PnR. Good placement leads to good routing.
-    As we know there are a number of same kind of cells present in the .lib, the tool looks at the logic present in the netlist and pick the cell by taking care of input constraints to meet the trade-off of the design.
+Placement is the process of determining the locations of standard cells present in the Netlist by placing these cells inside the core area.
+The cells are logically present in the Netlist. Looking at the physical presence of cells in LEF, tool places at the desired location.
+Placement of cells are most challenging and important phase in PnR. Good placement leads to good routing.
+As we know there are a number of same kind of cells present in the .lib, the tool looks at the logic present in the netlist and pick the cell by taking care of input constraints to meet the trade-off of the design.
 
 During placement, following three stages happens:
 
-        Global Placement
-        Refine Placement (Legalization)
-        Detailed Placement
+ Global Placement
+ Refine Placement (Legalization)
+Detailed Placement
 
 
 
 The below placement quality checks need to be done to have a place exit and get a qualitative database of placement.
 
-    Congestion
-    Performance (Timing)
-    Power
-    Routability
-    Placement Runtime
+Congestion
+Performance (Timing)
+Power
+Routability
+Placement Runtime
 
 
 
-    ```
+```
     run_placement
     
-    ```
+```
 
 ![Screenshot from 2023-11-14 19-18-59](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/bdfd8c8a-f6a1-408d-9ae6-bf7f757e13ab)
 
@@ -713,19 +713,45 @@ run_cts
 #### REPORTS
 
 __AREA__
-
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/1af7e7b5-9f24-4046-a590-3361c4506c7f)
 
 
 __SKEW__
 
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/9ca6fc0d-ad0a-46be-8aa7-f5248a86338a)
+
 
 __SLACK__
+
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/08bbf6a3-e34d-46f1-99b6-ee33cfa239d4)
 
 
 __POWER__
 
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/25dbe20a-b68d-4347-8fb1-3014a2074974)
 
 
+To generate power network after cts 
+
+```
+gen_pdn
+
+```
+
+###  Routing 
+
+Routing in VLSI is making physical connections between signal pins using metal layers. Following Clock Tree Synthesis (CTS) and optimization, the routing step determines the exact pathways for interconnecting standard cells, macros, and I/O pins. The layout creates electrical connections using metals and vias that are determined by the logical connections in the netlist (i.e; logical connectivity converted as physical connectivity).
+
+Each metal layer in a grid-based routing system has its tracks and preferred routing direction, which are described in a unified cell in the standard cell library. Routing activities are divided into four steps:
+
+Global routing Global routes assign nets to particular metal layers and global routing cells. The global route aims to avoid crowded global cells while making as few diversions as possible. Global routes also avoid pre-routed P/G, placement, and routing bottlenecks.
+    
+Detail Routing etail Routing seeks to repair any DRC violations following track assignment using a set size small region (SBox). The detailed routing goes through the whole design box by box until the routing pass is finished.It also performs timing driven routing .
+
+```
+run_routing
+
+```
 
 
 
