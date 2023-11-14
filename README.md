@@ -606,19 +606,11 @@ Physical library (.lef)
 Synopsys design constraints (.sdc)
 
 Floorplan control parameter:
-core area depends upon : 
-
 Aspect ratio:  Aspect ratio will decide the size and shape of the chip. It is the ratio between horizontal routing resources to vertical routing resources (or) ratio of height and width.    Aspect ratio = width/height 
 Core utilization:- Utilization will define the area occupied by the standard cells, macros, and other cells.If core utilization is 0.8 (80%) that means 80% of the core area is used for placing the standard cells, macros, and other cells, and the remaining 20% is used for routing purposes. 
-
 core utilization = (macros area + std cell area +pads area)/ total core area
-Pad placement:
+Pad placement:In ASIC design three types of IO Pads: Power,Ground,Signal.Generally pad placement and pin placement is done by Top-Level people. It is critical to the functional operation of an ASIC design to ensure that the pads have adequate power and ground connections and are placed properly in order to eliminate electro-migration and current-switching related problems.
 
-In ASIC design three types of IO Pads. Generally pad placement and pin placement is done by Top-Level people. It is critical to the functional operation of an ASIC design to ensure that the pads have adequate power and ground connections and are placed properly in order to eliminate electro-migration and current-switching related problems.
-
-Power
-Ground
-Signal
 
 
 
@@ -629,6 +621,7 @@ Signal
 run_floorplan
 
 ```
+
 ![Screenshot from 2023-11-14 19-19-19](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/8c7bb616-6d14-4f6c-b3b1-1ff13e53315c)
 
 
@@ -656,17 +649,11 @@ Placement is the process of determining the locations of standard cells present 
 The cells are logically present in the Netlist. Looking at the physical presence of cells in LEF, tool places at the desired location.
 Placement of cells are most challenging and important phase in PnR. Good placement leads to good routing.
 As we know there are a number of same kind of cells present in the .lib, the tool looks at the logic present in the netlist and pick the cell by taking care of input constraints to meet the trade-off of the design.
-
 During placement, following three stages happens:
-
- Global Placement
- Refine Placement (Legalization)
+Global Placement
+Refine Placement (Legalization)
 Detailed Placement
-
-
-
 The below placement quality checks need to be done to have a place exit and get a qualitative database of placement.
-
 Congestion
 Performance (Timing)
 Power
