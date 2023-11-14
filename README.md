@@ -511,6 +511,224 @@ INPUT 10:  As per function, when main switch is high and sensor output is low th
 
 ![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/d8ea71db-4a3b-49ca-a74f-2cfd52acc054)
 
+
+## PHYSICAL DESIGN FLOW
+
+ASIC flow: RTL TO GSDII flow: Synthesis -> Floor and PowerPlan -> Placement -> Clock Tree Synthesis -> Routing -> SignOff (Tapeout)
+
+Synthesis: RTL to gate level Netlist. FloorPLan: Patrition and pinrows ets. Powerpin connections to rails PLacement: Alignment- Global and Detailed CTS: Clock Network design Routing: Implement Interconnect using metal layers, Global and deayled routing GDSII: DRC,LVS,STA and tapeout.
+
+Challenges with Open Source Tools: Configuration, Calibration and some missing tools can be encountered while building an ASIC chip which must be effectively dealt with.
+
+OpenLane and STrive Chipsets
+
+Skywater PDK is used. Openlane provides a large number ofdesign examples and can be used to harden macros and chips. It is containerized and tuned for skywater130nm pdk.
+
+OpenLane ASIC flow: To build clean GDSII with no human interaction.
+
+
+
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/66daa344-29c6-460a-b593-cdbfe9b3b4f2)
+
+
+```
+RTL Design (Register-Transfer Level): At this stage, engineers create a high-level description of the desired chip's functionality using a hardware description language like VHDL or Verilog. This description defines how data moves between registers and logic gates in the chip.
+
+Synthesis: The RTL code is synthesized into a gate-level representation. This step transforms the high-level description into a netlist of logic gates that can be implemented in silicon. Optimization techniques are applied to improve performance, power consumption, and area usage.
+
+Floorplanning: Engineers create a layout plan, or floorplan, that specifies where different functional blocks will be placed on the chip. This step considers factors like power distribution and signal routing.
+
+Placement : The synthesized gates are physically placed on the chip according to the floorplan. This step aims to minimize the physical distance between related gates to improve performance.
+
+Routing: Wires are connected between the gates to establish the logical connections defined in the RTL code. This step involves complex algorithms to optimize for speed, power, and area.
+
+Physical Verification : The design is thoroughly checked for issues like timing violations, manufacturing defects, and design rule violations. Tools ensure that the chip will function correctly and be manufacturable.
+
+Mask Generation: The final layout, or mask, is generated based on the design. This mask provides a blueprint for the semiconductor fabrication process.
+
+Manufacturing: The mask is used to manufacture the physical semiconductor wafer in a semiconductor fabrication facility (fab). This involves a series of intricate processes, including photolithography, etching, and doping, to create the actual chip.
+
+Testing: After fabrication, each chip is rigorously tested to identify defects and ensure functionality.
+
+Packaging: The individual chips are packaged into protective casings that include pins or connectors for interfacing with other electronic components.
+
+GDS2 Format: GDS2 is a file format used to represent the final chip layout and mask data. It contains information about the physical layout of the chip, including the positions of gates, wires, and other elements.
+
+
+```
+
+### Preparing Design
+
+Add the lib files, lef files, source and run folders in the project folder. Make sure the config.json file is in the appropriate path (inside project folder). 
+Launch OpenLane. 
+Use command ``` prep -design project -verbose 99 ```  if needed. 
+```
+make mount
+%./flow.tcl -interactive
+% package require openlane 0.9
+% prep -design project 
+
+```
+![Screenshot from 2023-11-14 19-19-19](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/3469dc70-df94-41f0-873b-ffa8ff55b9dc)
+
+
+### Synthesis 
+
+Synthesis is the process of converting RTL code, typically written in hardware description languages like Verilog or VHDL, into a gate-level netlist. It involves mapping the functionality specified in the RTL code to a library of standard cells, such as NAND, NOR, XOR gates, etc., provided by the target technology.
+    Inputs : RTL, Technology libraries, Constraints (Environment, clocks, IO delays etc.)
+    Outputs : Netlist , SDC, Reports etc.
+GTECH Mapping – Consists of mapping the HDL netlist to generic gates what are used to perform logical optimization based on AIGERs and other topologies created from the generic mapped netlist.
+Technology Mapping – Consists of mapping the post-optimized GTECH netlist to standard cells described in the PDK
+
+
+ ```
+	run_synthesis
+ ```
+![Screenshot from 2023-11-14 19-19-19](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/9cd7c964-7412-4864-9bdf-16b211ba6996)
+
+__Statistics post Synthesis__
+
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/ec3d101c-9671-4812-bbd1-5341a6bb4083)
+
+
+### Floorplanning 
+
+Floorplanning is the art of any physical design. A well and perfect floorplan leads to an ASIC design with higher performance and optimum area.
+Floorplanning can be challenging in that, it deals with the placement of I/O pads and macros as well as power and ground structure.
+Before we are going for the floor planning to make sure that inputs are used for floorplan is prepared properly.
+
+Inputs for floorplan:
+
+    Netlist (.v)
+    Technology file (techlef)
+    Timing Library files (.lib)
+    Physical library (.lef)
+    Synopsys design constraints (.sdc)
+
+Floorplan control parameter:
+core area depends upon : 
+
+    Aspect ratio:  Aspect ratio will decide the size and shape of the chip. It is the ratio between horizontal routing resources to vertical routing resources (or) ratio of height and width.    Aspect ratio = width/height 
+    Core utilization:- Utilization will define the area occupied by the standard cells, macros, and other cells.If core utilization is 0.8 (80%) that means 80% of the core area is used for placing the standard cells, macros, and other cells, and the remaining 20% is used for routing purposes. 
+
+         core utilization = (macros area + std cell area +pads area)/ total core area
+Pad placement:
+
+In ASIC design three types of IO Pads. Generally pad placement and pin placement is done by Top-Level people. It is critical to the functional operation of an ASIC design to ensure that the pads have adequate power and ground connections and are placed properly in order to eliminate electro-migration and current-switching related problems.
+
+    Power
+    Ground
+    Signal
+
+
+
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/8c654aa4-229e-4176-9062-db0decfd696e)
+
+
+```
+run_floorplan
+
+```
+![Screenshot from 2023-11-14 19-19-19](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/8c7bb616-6d14-4f6c-b3b1-1ff13e53315c)
+
+
+To view the floorplan: Magic is invoked after moving to the results/floorplan directory,then use the follwing command:
+
+```
+ cd OpenLane/designs/project/runs/RUN_2023.11.14_12.18.03/results/floorplan
+ magic -T /home/sushma/.volare/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.nom.lef def read wrapper.def
+
+```
+
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/6735c8d8-d1ac-471a-8dee-19b955bee942)
+
+__DIE AND CORE AREA POST FLOORPLAN___
+
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/cb91606c-92bf-48e5-90db-84c8733c9275)
+
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/51db5df0-48f9-4c16-842f-12237756d388)
+
+
+
+## Placement 
+
+    Placement is the process of determining the locations of standard cells present in the Netlist by placing these cells inside the core area.
+    The cells are logically present in the Netlist. Looking at the physical presence of cells in LEF, tool places at the desired location.
+    Placement of cells are most challenging and important phase in PnR. Good placement leads to good routing.
+    As we know there are a number of same kind of cells present in the .lib, the tool looks at the logic present in the netlist and pick the cell by taking care of input constraints to meet the trade-off of the design.
+
+During placement, following three stages happens:
+
+        Global Placement
+        Refine Placement (Legalization)
+        Detailed Placement
+
+
+
+The below placement quality checks need to be done to have a place exit and get a qualitative database of placement.
+
+    Congestion
+    Performance (Timing)
+    Power
+    Routability
+    Placement Runtime
+
+
+
+    ```
+    run_placement
+    
+    ```
+
+![Screenshot from 2023-11-14 19-18-59](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/bdfd8c8a-f6a1-408d-9ae6-bf7f757e13ab)
+
+
+Navigate to the placemnet directory and invoke magic
+
+```
+magic -T /home/sushma/.volare/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.nom.lef def read wrapper.def &
+
+```
+![Screenshot from 2023-11-14 19-15-21](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/67cb2960-7237-41a0-b934-2e9a67236552)
+
+
+
+
+### CTS 
+
+ Clock is not propagated before CTS so after clock tree build in CTS stage we consider hold timings and try to meet all hold violations.
+
+After placement we have position of all standard cells and macros and in placement we have ideal clock (for simplicity we assume that we are dealing with a single clock for the whole design). At the placement optimization stage buffer insertion and gate sizing and any other optimization techniques are used only for data paths but in the clock path nothing we change.
+
+CTS is the process of connecting the clocks to all clock pin of sequential circuits by using inverters/buffers in order to balance the skew and to minimize the insertion delay. All the clock pins are driven by a single clock source. Clock balancing is important for meeting all the design constraints.
+
+
+```
+run_cts
+
+```
+![Screenshot from 2023-11-14 19-18-59](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/8516f061-39cd-49ff-8815-36ce49cf3725)
+
+
+#### REPORTS
+
+__AREA__
+
+
+
+__SKEW__
+
+
+__SLACK__
+
+
+__POWER__
+
+
+
+
+
+
 ## Acknowledgement
 
 ### Special Mention
