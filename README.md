@@ -798,6 +798,29 @@ __POWER__
 ![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/a493ca64-30b3-4196-9764-e9ef0b7a0341)
 
 
+### Performance Calculation 
+
+                              1
+Max Performance =  ------------------------
+                     clock period - slack(setup)
+
+As per this design, clock period of 70ns has a postive slack of 19.88ns post routing. 
+Thus the maximum frequency of opeartion is 0.0199GHz.
+
+
+### Additional Checks
+
+```
+run_magic
+run_magic_spice_export
+run_magic_drc
+run_antenna_check
+
+```
+
+
+![Screenshot from 2023-11-14 21-52-46](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/d589d18a-5616-4f88-8f98-442f4f119c65)
+
 
 
 
