@@ -825,6 +825,25 @@ run_antenna_check
 ![Screenshot from 2023-11-14 21-52-46](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/d589d18a-5616-4f88-8f98-442f4f119c65)
 
 
+### ASIC FLOW IN OPENLANE 
+
+```
+
+./flow.tcl -interactive
+package require openlane 0.9
+prep -design picorv32a
+run_synthesis
+run_floorplan
+run_placement
+run_cts
+gen_pdn
+run_routing
+run_magic
+run_magic_spice_export
+run_magic_drc
+run_antenna_check
+
+```
 
 
 
