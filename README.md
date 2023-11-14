@@ -799,10 +799,13 @@ __POWER__
 
 
 ### Performance Calculation 
+```
 
-                              1
-Max Performance =  ------------------------
-                     clock period - slack(setup)
+                             	 	   1
+	Max Performance =  	------------------------
+				clock period - slack(setup)
+
+```
 
 As per this design, clock period of 70ns has a postive slack of 19.88ns post routing. 
 Thus the maximum frequency of opeartion is 0.0199GHz.
