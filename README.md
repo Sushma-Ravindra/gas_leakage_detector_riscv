@@ -813,7 +813,7 @@ Thus the maximum frequency of opeartion is 0.0199GHz.
 
 The files of pnr can be found in the link below:
 
-[https://iiitbac-my.sharepoint.com/:f:/g/personal/sushma_r_iiitb_ac_in/EjeObeGxd3NFmttgPxIB_4sBtI7tEm62rhyeAWR6KBrJCw?e=huabMm]
+[link](https://iiitbac-my.sharepoint.com/:f:/g/personal/sushma_r_iiitb_ac_in/EjeObeGxd3NFmttgPxIB_4sBtI7tEm62rhyeAWR6KBrJCw?e=huabMm)
 
 
 
