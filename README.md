@@ -799,6 +799,15 @@ Thus the maximum frequency of opeartion is 0.0199GHz.
 
 
 
+### Post Routing Reports 
+
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/c7f32788-c61f-4d9b-91d1-7fb3dec8c3ea)
+
+
+![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/185671fb-7564-4aea-a059-bbef604adfe2)
+
+
+
 
 ### RUNS FOLDER 
 
