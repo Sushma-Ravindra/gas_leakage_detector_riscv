@@ -801,7 +801,7 @@ Thus the maximum frequency of opeartion is 0.0199GHz.
 
 ### Post Routing Reports 
 
-![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/c7f32788-c61f-4d9b-91d1-7fb3dec8c3ea)
+
 
 
 ![image](https://github.com/Sushma-Ravindra/gas_leakage_detector_riscv/assets/141133883/185671fb-7564-4aea-a059-bbef604adfe2)
@@ -813,7 +813,7 @@ Thus the maximum frequency of opeartion is 0.0199GHz.
 
 The files of pnr can be found in the link below:
 
-[link](https://iiitbac-my.sharepoint.com/:f:/g/personal/sushma_r_iiitb_ac_in/EjeObeGxd3NFmttgPxIB_4sBtI7tEm62rhyeAWR6KBrJCw?e=huabMm)
+[runs_folder](https://iiitbac-my.sharepoint.com/:f:/g/personal/sushma_r_iiitb_ac_in/EjeObeGxd3NFmttgPxIB_4sBtI7tEm62rhyeAWR6KBrJCw?e=huabMm)
 
 
 
