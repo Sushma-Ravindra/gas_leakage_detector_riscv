@@ -863,7 +863,7 @@ Grateful to Mr Kunal Ghosh, Co-Founder, VLSI SYSTEM DESIGN for providing an exce
 
 - Kunal Ghosh, VSD Corp. Pvt. Ltd.
 - Alwin Shaju, IIITB
-- Mayank Kabra, Founder, Chipcron Pvt. Ltd
+- Mayank Chabra, Founder, Chipcron Pvt. Ltd
 
 
 
